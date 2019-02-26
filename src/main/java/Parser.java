@@ -7,12 +7,12 @@ class Parser {
 
   HashMap parse() {
 
-    String file = "requests_test_file.csv";
+    String fileCsv = "requests_test_file.csv";
     String line;
     String[] requestArray;
     HashMap<Integer, Request> requestMap = new HashMap<>();
 
-    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(fileCsv))) {
       br.readLine();
       int n = 0;
       while ((line = br.readLine()) != null) {
