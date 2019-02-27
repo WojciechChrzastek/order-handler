@@ -6,12 +6,18 @@ import java.util.List;
 
 class Parser {
 
+  private List<Request> requestList = null;
+
+  List<Request> getRequestList() {
+    return requestList;
+  }
+
   List parse() {
 
     String fileCsv = "requests_test_file.csv";
     String line;
     String[] requestArray;
-    List<Request> requestList = new ArrayList<>();
+    requestList = new ArrayList<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(fileCsv))) {
       br.readLine();
@@ -30,9 +36,6 @@ class Parser {
     } catch (IOException e) {
       System.out.println("File not found");
       e.printStackTrace();
-    }
-    for (Request r : requestList) {
-      System.out.println(r);
     }
     return requestList;
   }
