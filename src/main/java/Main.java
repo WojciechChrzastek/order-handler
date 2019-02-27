@@ -1,7 +1,10 @@
 public class Main {
   public static void main(String[] args) {
-    System.out.println("Hello World!");
     Parser parser = new Parser();
+
     parser.parse();
+
+    for (Request request : parser.getRequestList())
+      System.out.println(request);
   }
 }
