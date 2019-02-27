@@ -1,20 +1,20 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 class Parser {
 
-  HashMap parse() {
+  List parse() {
 
     String fileCsv = "requests_test_file.csv";
     String line;
     String[] requestArray;
-    HashMap<Integer, Request> requestMap = new HashMap<>();
+    List<Request> requestList = new ArrayList<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(fileCsv))) {
       br.readLine();
-      int n = 0;
       while ((line = br.readLine()) != null) {
 
         requestArray = line.split(",");
@@ -25,13 +25,15 @@ class Parser {
                 Integer.parseInt(requestArray[3]),
                 Double.parseDouble(requestArray[4]));
 
-        requestMap.put(n, request);
-        n++;
+        requestList.add(request);
       }
     } catch (IOException e) {
       System.out.println("File not found");
       e.printStackTrace();
     }
-    return requestMap;
+    for (Request r : requestList) {
+      System.out.println(r);
+    }
+    return requestList;
   }
 }
