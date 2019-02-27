@@ -82,4 +82,15 @@ public class Request {
     result = 31 * result + (int) (temp ^ (temp >>> 32));
     return result;
   }
+
+  @Override
+  public String toString() {
+    return "Request{" +
+            "clientId=" + clientId +
+            ", requestId=" + requestId +
+            ", name='" + name + '\'' +
+            ", quantity=" + quantity +
+            ", price=" + price +
+            '}';
+  }
 }
