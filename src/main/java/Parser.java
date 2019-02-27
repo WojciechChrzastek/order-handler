@@ -26,6 +26,9 @@ class Parser {
                 Double.parseDouble(requestArray[4]));
 
         requestList.add(request);
+        for (Request r : requestList) {
+          System.out.println(r);
+        }
       }
     } catch (IOException e) {
       System.out.println("File not found");
