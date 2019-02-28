@@ -1,10 +1,18 @@
 public class Main {
   public static void main(String[] args) {
-    Parser parser = new Parser();
+    ParserCsv parserCsv = new ParserCsv();
+    ParserXml parserXml = new ParserXml();
 
-    parser.parse();
+    parserCsv.parse();
+    parserXml.parse();
 
-    for (Request request : parser.getRequestList())
-      System.out.println(request);
+    for (Request r : parserCsv.getRequestList())
+      System.out.println(r);
+
+    System.out.println();
+
+    for (Request r : parserXml.getRequestList()) {
+      System.out.println(r);
+    }
   }
 }
