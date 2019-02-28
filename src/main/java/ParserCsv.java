@@ -22,14 +22,15 @@ class ParserCsv {
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       br.readLine();
       while ((line = br.readLine()) != null) {
-
         requestArray = line.split(",");
 
-        request = new Request(Integer.parseInt(requestArray[0]),
-                Integer.parseInt(requestArray[1]),
-                requestArray[2],
-                Integer.parseInt(requestArray[3]),
-                Double.parseDouble(requestArray[4]));
+        request = new Request();
+
+        request.setClientId(Integer.parseInt(requestArray[0]));
+        request.setRequestId(Integer.parseInt(requestArray[1]));
+        request.setName(requestArray[2]);
+        request.setQuantity(Integer.parseInt(requestArray[3]));
+        request.setPrice(Double.parseDouble(requestArray[4]));
 
         requestList.add(request);
       }
