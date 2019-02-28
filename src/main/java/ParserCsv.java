@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-class ParserCsv {
+class ParserCsv implements Parser {
   private List<Request> requestList = null;
   private Request request = null;
 
@@ -12,9 +12,8 @@ class ParserCsv {
     return requestList;
   }
 
-  List parse() {
-    String file = "requests_test_file.csv";
-
+  @Override
+  public List parse(String file) {
     String line;
     String[] requestArray;
     requestList = new ArrayList<>();

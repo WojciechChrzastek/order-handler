@@ -3,8 +3,8 @@ public class Main {
     ParserCsv parserCsv = new ParserCsv();
     ParserXml parserXml = new ParserXml();
 
-    parserCsv.parse();
-    parserXml.parse();
+    parserCsv.parse("requests_test_file.csv");
+    parserXml.parse("requests.xml");
 
     for (Request r : parserCsv.getRequestList())
       System.out.println(r);
