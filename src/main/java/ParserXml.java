@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParserXml extends DefaultHandler {
+public class ParserXml extends DefaultHandler implements Parser {
   private List<Request> requestList = null;
   private Request request = null;
 
@@ -26,8 +26,7 @@ public class ParserXml extends DefaultHandler {
     return requestList;
   }
 
-  List parse() {
-    String file = "requests.xml";
+  public List parse(String file) {
 
     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
     requestList = new ArrayList<>();
