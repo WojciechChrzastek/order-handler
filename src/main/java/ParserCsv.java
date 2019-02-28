@@ -5,27 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ParserCsv {
-
   private List<Request> requestList = null;
+  private Request request = null;
 
   List<Request> getRequestList() {
     return requestList;
   }
 
   List parse() {
+    String file = "requests_test_file.csv";
 
-    String fileCsv = "requests_test_file.csv";
     String line;
     String[] requestArray;
     requestList = new ArrayList<>();
 
-    try (BufferedReader br = new BufferedReader(new FileReader(fileCsv))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       br.readLine();
       while ((line = br.readLine()) != null) {
 
         requestArray = line.split(",");
 
-        Request request = new Request(Integer.parseInt(requestArray[0]),
+        request = new Request(Integer.parseInt(requestArray[0]),
                 Integer.parseInt(requestArray[1]),
                 requestArray[2],
                 Integer.parseInt(requestArray[3]),
