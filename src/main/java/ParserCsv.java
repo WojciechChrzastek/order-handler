@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-class Parser {
+class ParserCsv {
 
   private List<Request> requestList = null;
 
