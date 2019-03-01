@@ -22,7 +22,7 @@ public class ParserXml extends DefaultHandler implements Parser {
   private boolean quantity = false;
   private boolean price = false;
 
-  List<Request> getRequestList() {
+  public List<Request> getRequestList() {
     return requestList;
   }
 

@@ -8,7 +8,7 @@ class ParserCsv implements Parser {
   private List<Request> requestList = null;
   private Request request = null;
 
-  List<Request> getRequestList() {
+  public List<Request> getRequestList() {
     return requestList;
   }
 
