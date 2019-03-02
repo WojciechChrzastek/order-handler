@@ -1,25 +1,33 @@
+import java.sql.SQLException;
+
 public class Main {
   public static void main(String[] args) {
     ParserCsv parserCsv = new ParserCsv();
-    ParserXml parserXml = new ParserXml();
-    ParserOpenCsv parserOpenCsv = new ParserOpenCsv();
-
     parserCsv.parse("requests_test_file.csv");
-    parserOpenCsv.parse("requests_test_file.csv");
-    parserXml.parse("requests.xml");
 
-    for (Request r : parserCsv.getRequestList())
-      System.out.println(r);
-
-    System.out.println();
-
-    for (Request r : parserXml.getRequestList()) {
-      System.out.println(r);
+    DbHandler dbHandler = null;
+    try {
+      dbHandler = DbHandler.getInstance();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-    System.out.println();
 
-    for (Request r : parserOpenCsv.getRequestList()) {
-      System.out.println(r);
+    try {
+      if (dbHandler != null) {
+        dbHandler.createTable();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    for (Request r : parserCsv.getRequestList()) {
+      try {
+        if (dbHandler != null) {
+          dbHandler.insert(r);
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     }
   }
 }
