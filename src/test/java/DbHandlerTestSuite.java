@@ -21,20 +21,11 @@ public class DbHandlerTestSuite {
     DbHandler dbHandler = DbHandler.getInstance();
 
     //When
-    String sqlQuery = "CREATE TABLE TEST " +
-            "(" +
-            "ID SERIAL PRIMARY KEY, " +
-            "CLIENT_ID INTEGER UNSIGNED, " +
-            "REQUEST_ID INTEGER UNSIGNED, " +
-            "NAME CHAR CHARSET utf8, " +
-            "QUANTITY INTEGER UNSIGNED, " +
-            "PRICE DECIMAL (9,2) UNSIGNED " +
-            ")";
-    Statement statement = dbHandler.getConnection().createStatement();
-    statement.executeUpdate(sqlQuery);
+    dbHandler.createTable();
 
     //Then
-    sqlQuery = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'order_handler' AND table_name = 'TEST'";
+    String sqlQuery = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'order_handler' AND table_name = 'REQUESTS'";
+    Statement statement = dbHandler.getConnection().createStatement();
     ResultSet rs = statement.executeQuery(sqlQuery);
     rs.next();
 
@@ -42,7 +33,39 @@ public class DbHandlerTestSuite {
 
     //Clean up after the test
     if (rs.getInt(1) == 1) {
-      statement.executeUpdate("DROP TABLE TEST");
+      statement.executeUpdate("DROP TABLE REQUESTS");
+    }
+    statement.close();
+    rs.close();
+  }
+
+  @Test
+  public void testInsert() throws SQLException {
+    //Given
+    DbHandler dbHandler = DbHandler.getInstance();
+    String sqlQuery = "SELECT COUNT(*) FROM REQUESTS";
+    Statement statement = dbHandler.getConnection().createStatement();
+    ResultSet rs = statement.executeQuery(sqlQuery);
+    rs.next();
+    int rowsNumberBeforeInsert = rs.getInt(1);
+    System.out.println(rowsNumberBeforeInsert);
+
+    Request r = new Request(5, 8, "John", 16, 26.14);
+
+    //When
+    dbHandler.insert(r);
+
+    //Then
+    ResultSet rs2 = statement.executeQuery(sqlQuery);
+    rs2.next();
+    int rowsNumberAfterInsert = rs2.getInt(1);
+    System.out.println(rowsNumberAfterInsert);
+
+    Assert.assertEquals(rowsNumberBeforeInsert + 1, rowsNumberAfterInsert);
+
+    //Clean up after the test
+    if (rowsNumberBeforeInsert + 1 == rowsNumberAfterInsert) {
+      statement.executeUpdate("DELETE FROM REQUESTS ORDER BY ID DESC LIMIT 1");
     }
     statement.close();
     rs.close();
