@@ -5,38 +5,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ParserCsv implements Parser {
-  private List<Request> requestList = null;
+  private List<Request> requestsList = null;
   private Request request = null;
 
-  public List<Request> getRequestList() {
-    return requestList;
+  public List<Request> getRequestsList() {
+    return requestsList;
   }
 
   @Override
   public List parse(String file) {
     String line;
-    String[] requestArray;
-    requestList = new ArrayList<>();
+    String[] requestsArray;
+    requestsList = new ArrayList<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       br.readLine();
       while ((line = br.readLine()) != null) {
-        requestArray = line.split(",");
+        requestsArray = line.split(",");
 
         request = new Request();
 
-        request.setClientId(Integer.parseInt(requestArray[0]));
-        request.setRequestId(Integer.parseInt(requestArray[1]));
-        request.setName(requestArray[2]);
-        request.setQuantity(Integer.parseInt(requestArray[3]));
-        request.setPrice(Double.parseDouble(requestArray[4]));
+        request.setClientId(Integer.parseInt(requestsArray[0]));
+        request.setRequestId(Integer.parseInt(requestsArray[1]));
+        request.setName(requestsArray[2]);
+        request.setQuantity(Integer.parseInt(requestsArray[3]));
+        request.setPrice(Double.parseDouble(requestsArray[4]));
 
-        requestList.add(request);
+        requestsList.add(request);
       }
     } catch (IOException e) {
       System.out.println("File not found");
       e.printStackTrace();
     }
-    return requestList;
+    return requestsList;
   }
 }

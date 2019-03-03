@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ParserOpenCsv implements Parser {
-  private List<Request> requestList = null;
+  private List<Request> requestsList = null;
   private Request request = null;
 
   @Override
-  public List<Request> getRequestList() {
-    return requestList;
+  public List<Request> getRequestsList() {
+    return requestsList;
   }
 
   @Override
   public List parse(String file) {
-    requestList = new ArrayList<>();
+    requestsList = new ArrayList<>();
     CSVReader reader = null;
 
     try {
@@ -31,12 +31,13 @@ class ParserOpenCsv implements Parser {
         request.setName(line[2]);
         request.setQuantity(Integer.parseInt(line[3]));
         request.setPrice(Double.parseDouble(line[4]));
-        requestList.add(request);
+        requestsList.add(request);
 
       }
     } catch (IOException e) {
+      System.out.println("File not found");
       e.printStackTrace();
     }
-    return requestList;
+    return requestsList;
   }
 }

@@ -20,7 +20,7 @@ public class Main {
       e.printStackTrace();
     }
 
-    for (Request r : parserCsv.getRequestList()) {
+    for (Request r : parserCsv.getRequestsList()) {
       try {
         if (dbHandler != null) {
           dbHandler.insert(r);
