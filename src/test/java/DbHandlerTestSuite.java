@@ -43,12 +43,12 @@ public class DbHandlerTestSuite {
   public void testInsert() throws SQLException {
     //Given
     DbHandler dbHandler = DbHandler.getInstance();
+    dbHandler.createTable();
     String sqlQuery = "SELECT COUNT(*) FROM REQUESTS";
     Statement statement = dbHandler.getConnection().createStatement();
     ResultSet rs = statement.executeQuery(sqlQuery);
     rs.next();
     int rowsNumberBeforeInsert = rs.getInt(1);
-    System.out.println(rowsNumberBeforeInsert);
 
     Request r = new Request(5, 8, "John", 16, 26.14);
 
@@ -59,7 +59,6 @@ public class DbHandlerTestSuite {
     ResultSet rs2 = statement.executeQuery(sqlQuery);
     rs2.next();
     int rowsNumberAfterInsert = rs2.getInt(1);
-    System.out.println(rowsNumberAfterInsert);
 
     Assert.assertEquals(rowsNumberBeforeInsert + 1, rowsNumberAfterInsert);
 
@@ -67,6 +66,7 @@ public class DbHandlerTestSuite {
     if (rowsNumberBeforeInsert + 1 == rowsNumberAfterInsert) {
       statement.executeUpdate("DELETE FROM REQUESTS ORDER BY ID DESC LIMIT 1");
     }
+    statement.executeUpdate("DROP TABLE REQUESTS");
     statement.close();
     rs.close();
   }
