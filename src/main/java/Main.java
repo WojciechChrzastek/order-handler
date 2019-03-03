@@ -29,5 +29,17 @@ public class Main {
         e.printStackTrace();
       }
     }
+
+    String input = "1";
+    ReportGenerator reportGenerator = new ReportGenerator();
+    ReportHandler reportHandler = new ReportHandler();
+
+    try {
+      reportHandler.printReportToConsole(reportGenerator.generateReport(input));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
   }
+
 }
