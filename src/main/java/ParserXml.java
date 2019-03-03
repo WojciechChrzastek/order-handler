@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParserXml extends DefaultHandler implements Parser {
-  private List<Request> requestList = null;
+class ParserXml extends DefaultHandler implements Parser {
+  private List<Request> requestsList = null;
   private Request request = null;
 
   private StringBuilder data = null;
@@ -22,34 +22,34 @@ public class ParserXml extends DefaultHandler implements Parser {
   private boolean quantity = false;
   private boolean price = false;
 
-  public List<Request> getRequestList() {
-    return requestList;
+  public List<Request> getRequestsList() {
+    return requestsList;
   }
 
   @Override
   public List parse(String file) {
 
     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-    requestList = new ArrayList<>();
+    requestsList = new ArrayList<>();
     try {
       SAXParser saxParser = saxParserFactory.newSAXParser();
       ParserXml handler = new ParserXml();
       saxParser.parse(new File(file), handler);
 
-      requestList = handler.getRequestList();
+      requestsList = handler.getRequestsList();
 
     } catch (ParserConfigurationException | SAXException | IOException e) {
       e.printStackTrace();
     }
-    return requestList;
+    return requestsList;
   }
 
   @Override
   public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
     if (qName.equalsIgnoreCase("Request")) {
       request = new Request();
-      if (requestList == null)
-        requestList = new ArrayList<>();
+      if (requestsList == null)
+        requestsList = new ArrayList<>();
     } else if (qName.equalsIgnoreCase("clientId")) {
       clientId = true;
     } else if (qName.equalsIgnoreCase("requestId")) {
@@ -83,7 +83,7 @@ public class ParserXml extends DefaultHandler implements Parser {
       price = false;
     }
     if (qName.equalsIgnoreCase("Request")) {
-      requestList.add(request);
+      requestsList.add(request);
     }
   }
 
