@@ -1,4 +1,4 @@
-public class Request {
+class Request {
   private int clientId;
   private int requestId;
   private String name;
@@ -16,43 +16,43 @@ public class Request {
   public Request() {
   }
 
-  public int getClientId() {
+  int getClientId() {
     return clientId;
   }
 
-  public void setClientId(int clientId) {
+  void setClientId(int clientId) {
     this.clientId = clientId;
   }
 
-  public int getRequestId() {
+  int getRequestId() {
     return requestId;
   }
 
-  public void setRequestId(int requestId) {
+  void setRequestId(int requestId) {
     this.requestId = requestId;
   }
 
-  public String getName() {
+  String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  void setName(String name) {
     this.name = name;
   }
 
-  public int getQuantity() {
+  int getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(int quantity) {
+  void setQuantity(int quantity) {
     this.quantity = quantity;
   }
 
-  public double getPrice() {
+  double getPrice() {
     return price;
   }
 
-  public void setPrice(double price) {
+  void setPrice(double price) {
     this.price = price;
   }
 
