@@ -2,119 +2,91 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class ReportGenerator {
-  private List<String> report = new ArrayList<>();
-  Scanner scanner = new Scanner(System.in);
+class ReportGenerator {
+  private Scanner scanner = new Scanner(System.in);
 
-  List<String> generateReport(String input) throws SQLException {
+  ResultSet generateReport(String input) throws SQLException {
+    ResultSet rs = null;
 
     switch (input) {
       case "1": {
-        report.clear();
-        report.add(String.valueOf(returnTotalOrdersNumber()));
+        rs = returnTotalOrdersNumber();
         break;
       }
       case "2": {
-        report.clear();
-        report.add(String.valueOf(returnTotalOrdersNumberOfGivenClientId()));
+        rs = returnTotalOrdersNumberOfGivenClientId();
         break;
       }
       case "3": {
-        report.clear();
-        report.add(String.valueOf(returnTotalValueOfOrders()));
+        rs = returnTotalValueOfOrders();
         break;
       }
       case "4": {
-        report.clear();
-        report.add(String.valueOf(returnTotalValueOfOrdersOfGivenClientId()));
+        rs = returnTotalValueOfOrdersOfGivenClientId();
+        break;
+      }
+      case "5": {
+        rs = returnListOfAllOrders();
         break;
       }
     }
-    return report;
+    return rs;
   }
 
-  private int returnTotalOrdersNumber() throws SQLException {
+  private ResultSet returnTotalOrdersNumber() throws SQLException {
     DbHandler dbHandler = DbHandler.getInstance();
     Statement statement = dbHandler.getConnection().createStatement();
 
-    String sqlQuery = "SELECT COUNT(*) FROM REQUESTS";
+    String sqlQuery = "SELECT COUNT(*) AS TOTAL_ORDERS_NUMBER FROM REQUESTS";
     ResultSet rs = statement.executeQuery(sqlQuery);
     rs.next();
-    return rs.getInt(1);
+    return rs;
   }
 
-  private int returnTotalOrdersNumberOfGivenClientId() throws SQLException {
+  private ResultSet returnTotalOrdersNumberOfGivenClientId() throws SQLException {
     System.out.print("Give Client Id: ");
     int clientId = scanner.nextInt();
 
     DbHandler dbHandler = DbHandler.getInstance();
-    PreparedStatement ps = dbHandler.getConnection().prepareStatement("SELECT COUNT(*) FROM REQUESTS WHERE CLIENT_ID = ?");
-    ps.setInt(1, clientId);
+    PreparedStatement ps = dbHandler.getConnection().prepareStatement("SELECT COUNT(*) AS ? FROM REQUESTS WHERE CLIENT_ID = ?");
+    ps.setString(1, "TOTAL_ORDERS_NUMBER_FOR_CLIENT_ID_NO_" + clientId);
+    ps.setInt(2, clientId);
     ResultSet rs = ps.executeQuery();
     rs.next();
-    return rs.getInt(1);
+    return rs;
   }
 
-  private int returnTotalValueOfOrders() throws SQLException {
+  private ResultSet returnTotalValueOfOrders() throws SQLException {
     DbHandler dbHandler = DbHandler.getInstance();
     Statement statement = dbHandler.getConnection().createStatement();
 
-    String sqlQuery = "SELECT SUM(PRICE) FROM REQUESTS;";
+    String sqlQuery = "SELECT SUM(PRICE) AS TOTAL_VALUE_OF_ORDERS FROM REQUESTS;";
     ResultSet rs = statement.executeQuery(sqlQuery);
     rs.next();
-    return rs.getInt(1);
+    return rs;
   }
 
-  private int returnTotalValueOfOrdersOfGivenClientId() throws SQLException {
+  private ResultSet returnTotalValueOfOrdersOfGivenClientId() throws SQLException {
     System.out.print("Give Client Id: ");
     int clientId = scanner.nextInt();
 
     DbHandler dbHandler = DbHandler.getInstance();
-    PreparedStatement ps = dbHandler.getConnection().prepareStatement("SELECT SUM(PRICE) FROM REQUESTS WHERE CLIENT_ID = ?");
-    ps.setInt(1, clientId);
+    PreparedStatement ps = dbHandler.getConnection().prepareStatement("SELECT SUM(PRICE) AS ? FROM REQUESTS WHERE CLIENT_ID = ?");
+    ps.setString(1, "TOTAL_VALUE_OF_ORDERS_FOR_CLIENT_ID_NO_" + clientId);
+    ps.setInt(2, clientId);
     ResultSet rs = ps.executeQuery();
     rs.next();
-    return rs.getInt(1);
+    return rs;
   }
 
-//  total value of orders by client id
-//  list of all orders
-//  list of all orders by client id
-//  average order value
-//  average order value by client id
+  private ResultSet returnListOfAllOrders() throws SQLException {
+    DbHandler dbHandler = DbHandler.getInstance();
+    Statement statement = dbHandler.getConnection().createStatement();
 
-
-  public List<String> getReport() {
-    return report;
-  }
-
-  public void setReport(List<String> report) {
-    this.report = report;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    ReportGenerator that = (ReportGenerator) o;
-
-    return report != null ? report.equals(that.report) : that.report == null;
-  }
-
-  @Override
-  public int hashCode() {
-    return report != null ? report.hashCode() : 0;
-  }
-
-  @Override
-  public String toString() {
-    return "ReportGenerator{" +
-            "report=" + report +
-            '}';
+    String sqlQuery = "SELECT * FROM REQUESTS;";
+    ResultSet rs = statement.executeQuery(sqlQuery);
+    return rs;
   }
 }
