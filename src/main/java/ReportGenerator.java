@@ -28,6 +28,11 @@ public class ReportGenerator {
         report.add(String.valueOf(returnTotalValueOfOrders()));
         break;
       }
+      case "4": {
+        report.clear();
+        report.add(String.valueOf(returnTotalValueOfOrdersOfGivenClientId()));
+        break;
+      }
     }
     return report;
   }
@@ -60,6 +65,18 @@ public class ReportGenerator {
 
     String sqlQuery = "SELECT SUM(PRICE) FROM REQUESTS;";
     ResultSet rs = statement.executeQuery(sqlQuery);
+    rs.next();
+    return rs.getInt(1);
+  }
+
+  private int returnTotalValueOfOrdersOfGivenClientId() throws SQLException {
+    System.out.print("Give Client Id: ");
+    int clientId = scanner.nextInt();
+
+    DbHandler dbHandler = DbHandler.getInstance();
+    PreparedStatement ps = dbHandler.getConnection().prepareStatement("SELECT SUM(PRICE) FROM REQUESTS WHERE CLIENT_ID = ?");
+    ps.setInt(1, clientId);
+    ResultSet rs = ps.executeQuery();
     rs.next();
     return rs.getInt(1);
   }
