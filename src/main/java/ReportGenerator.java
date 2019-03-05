@@ -38,6 +38,10 @@ class ReportGenerator {
         rs = returnListOfAllOrders();
         break;
       }
+      case "6": {
+        rs = returnListOfAllOrdersOfGivenClientId();
+        break;
+      }
       default: {
         System.out.println("Wrong input");
       }
@@ -46,7 +50,6 @@ class ReportGenerator {
   }
 
   private ResultSet returnTotalOrdersNumber() throws SQLException {
-
     sqlQuery = "SELECT COUNT(*) AS TOTAL_ORDERS_NUMBER FROM REQUESTS";
     rs = statement.executeQuery(sqlQuery);
     rs.next();
@@ -56,7 +59,6 @@ class ReportGenerator {
   private ResultSet returnTotalOrdersNumberOfGivenClientId() throws SQLException {
     System.out.print("Give Client Id: ");
     clientId = scanner.nextInt();
-
     sqlQuery = "SELECT COUNT(*) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
     PreparedStatement ps = dbHandler.getConnection().prepareStatement(sqlQuery);
     ps.setString(1, "TOTAL_ORDERS_NUMBER_FOR_CLIENT_ID_NO_" + clientId);
@@ -67,7 +69,6 @@ class ReportGenerator {
   }
 
   private ResultSet returnTotalValueOfOrders() throws SQLException {
-
     sqlQuery = "SELECT SUM(PRICE) AS TOTAL_VALUE_OF_ORDERS FROM REQUESTS;";
     rs = statement.executeQuery(sqlQuery);
     rs.next();
@@ -77,7 +78,6 @@ class ReportGenerator {
   private ResultSet returnTotalValueOfOrdersOfGivenClientId() throws SQLException {
     System.out.print("Give Client Id: ");
     clientId = scanner.nextInt();
-
     sqlQuery = "SELECT SUM(PRICE) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
     PreparedStatement ps = dbHandler.getConnection().prepareStatement(sqlQuery);
     ps.setString(1, "TOTAL_VALUE_OF_ORDERS_FOR_CLIENT_ID_NO_" + clientId);
@@ -88,9 +88,19 @@ class ReportGenerator {
   }
 
   private ResultSet returnListOfAllOrders() throws SQLException {
-
     sqlQuery = "SELECT * FROM REQUESTS;";
     rs = statement.executeQuery(sqlQuery);
+    return rs;
+  }
+
+  private ResultSet returnListOfAllOrdersOfGivenClientId() throws SQLException {
+    System.out.print("Give Client Id: ");
+    clientId = scanner.nextInt();
+    sqlQuery = "SELECT * FROM REQUESTS WHERE CLIENT_ID = ?;";
+    PreparedStatement ps = dbHandler.getConnection().prepareStatement(sqlQuery);
+    ps.setInt(1, clientId);
+    rs = ps.executeQuery();
+    rs.next();
     return rs;
   }
 }
