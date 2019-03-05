@@ -42,8 +42,12 @@ class ReportGenerator {
         rs = returnListOfAllOrdersOfGivenClientId();
         break;
       }
-       case "7": {
+      case "7": {
         rs = returnAverageOrderValue();
+        break;
+      }
+      case "8": {
+        rs = returnAverageOrderValueOfGivenClientId();
         break;
       }
       default: {
@@ -73,7 +77,7 @@ class ReportGenerator {
   }
 
   private ResultSet returnTotalValueOfOrders() throws SQLException {
-    sqlQuery = "SELECT SUM(PRICE) AS TOTAL_VALUE_OF_ORDERS FROM REQUESTS;";
+    sqlQuery = "SELECT SUM(PRICE) AS TOTAL_VALUE_OF_ORDERS FROM REQUESTS";
     rs = statement.executeQuery(sqlQuery);
     rs.next();
     return rs;
@@ -100,7 +104,7 @@ class ReportGenerator {
   private ResultSet returnListOfAllOrdersOfGivenClientId() throws SQLException {
     System.out.print("Give Client Id: ");
     clientId = scanner.nextInt();
-    sqlQuery = "SELECT * FROM REQUESTS WHERE CLIENT_ID = ?;";
+    sqlQuery = "SELECT * FROM REQUESTS WHERE CLIENT_ID = ?";
     PreparedStatement ps = dbHandler.getConnection().prepareStatement(sqlQuery);
     ps.setInt(1, clientId);
     rs = ps.executeQuery();
@@ -114,5 +118,16 @@ class ReportGenerator {
     rs.next();
     return rs;
   }
-  
+
+  private ResultSet returnAverageOrderValueOfGivenClientId() throws SQLException {
+    System.out.print("Give Client Id: ");
+    clientId = scanner.nextInt();
+    sqlQuery = "SELECT AVG(QUANTITY * PRICE) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
+    PreparedStatement ps = dbHandler.getConnection().prepareStatement(sqlQuery);
+    ps.setString(1, "AVERAGE_ORDER_VALUE_FOR_CLIENT_ID_NO_" + clientId);
+    ps.setInt(2, clientId);
+    rs = ps.executeQuery();
+    rs.next();
+    return rs;
+  }
 }
