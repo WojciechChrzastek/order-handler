@@ -35,7 +35,15 @@ public class Main {
     String input3 = "3";
     String input4 = "4";
     String input5 = "5";
-    ReportGenerator reportGenerator = new ReportGenerator();
+    String input6 = "6";
+    String input7 = "7";
+    String input8 = "8";
+    ReportGenerator reportGenerator = null;
+    try {
+      reportGenerator = new ReportGenerator();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     ReportHandler reportHandler = new ReportHandler();
 
     try {
@@ -44,6 +52,9 @@ public class Main {
       reportHandler.printReportToConsole(reportGenerator.generateReport(input3));
       reportHandler.printReportToConsole(reportGenerator.generateReport(input4));
       reportHandler.printReportToConsole(reportGenerator.generateReport(input5));
+      reportHandler.printReportToConsole(reportGenerator.generateReport(input6));
+      reportHandler.printReportToConsole(reportGenerator.generateReport(input7));
+      reportHandler.printReportToConsole(reportGenerator.generateReport(input8));
 
     } catch (SQLException e) {
       e.printStackTrace();
