@@ -8,7 +8,6 @@ class ReportGenerator {
   private String sqlQuery;
   private Scanner scanner = new Scanner(System.in);
   private DbHandler dbHandler = DbHandler.getInstance();
-  private Statement statement = dbHandler.getConnection().createStatement();
   private ResultSet rs = null;
   private int clientId;
 
@@ -59,7 +58,8 @@ class ReportGenerator {
 
   private ResultSet returnTotalOrdersNumber() throws SQLException {
     sqlQuery = "SELECT COUNT(*) AS TOTAL_ORDERS_NUMBER FROM REQUESTS";
-    rs = statement.executeQuery(sqlQuery);
+    Statement statement = dbHandler.getConnection().createStatement();
+    ResultSet rs = statement.executeQuery(sqlQuery);
     rs.next();
     return rs;
   }
@@ -77,7 +77,8 @@ class ReportGenerator {
   }
 
   private ResultSet returnTotalValueOfOrders() throws SQLException {
-    sqlQuery = "SELECT SUM(PRICE) AS TOTAL_VALUE_OF_ORDERS FROM REQUESTS";
+    sqlQuery = "SELECT SUM(PRICE*QUANTITY) AS TOTAL_VALUE_OF_ORDERS FROM REQUESTS";
+    Statement statement = dbHandler.getConnection().createStatement();
     rs = statement.executeQuery(sqlQuery);
     rs.next();
     return rs;
@@ -97,7 +98,9 @@ class ReportGenerator {
 
   private ResultSet returnListOfAllOrders() throws SQLException {
     sqlQuery = "SELECT * FROM REQUESTS;";
+    Statement statement = dbHandler.getConnection().createStatement();
     rs = statement.executeQuery(sqlQuery);
+    rs.next();
     return rs;
   }
 
@@ -114,6 +117,7 @@ class ReportGenerator {
 
   private ResultSet returnAverageOrderValue() throws SQLException {
     sqlQuery = "SELECT AVG(QUANTITY * PRICE) AS AVERAGE_ORDER_VALUE FROM REQUESTS";
+    Statement statement = dbHandler.getConnection().createStatement();
     rs = statement.executeQuery(sqlQuery);
     rs.next();
     return rs;
