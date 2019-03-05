@@ -42,6 +42,10 @@ class ReportGenerator {
         rs = returnListOfAllOrdersOfGivenClientId();
         break;
       }
+       case "7": {
+        rs = returnAverageOrderValue();
+        break;
+      }
       default: {
         System.out.println("Wrong input");
       }
@@ -103,4 +107,12 @@ class ReportGenerator {
     rs.next();
     return rs;
   }
+
+  private ResultSet returnAverageOrderValue() throws SQLException {
+    sqlQuery = "SELECT AVG(QUANTITY * PRICE) AS AVERAGE_ORDER_VALUE FROM REQUESTS";
+    rs = statement.executeQuery(sqlQuery);
+    rs.next();
+    return rs;
+  }
+  
 }
