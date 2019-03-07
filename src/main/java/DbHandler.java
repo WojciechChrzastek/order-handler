@@ -1,7 +1,7 @@
 import java.sql.*;
 import java.util.Properties;
 
-public class DbHandler {
+class DbHandler {
   private Connection conn;
   private static DbHandler dbHandlerInstance;
 
@@ -14,18 +14,26 @@ public class DbHandler {
                     "&useSSL=False", connectionProps);
   }
 
-  public static DbHandler getInstance() throws SQLException {
+  static DbHandler getInstance() throws SQLException {
     if (dbHandlerInstance == null) {
       dbHandlerInstance = new DbHandler();
     }
     return dbHandlerInstance;
   }
 
-  public Connection getConnection() {
+  Connection getConnection() {
     return conn;
   }
 
-  public void createTable() throws SQLException {
+  void deleteTable() throws SQLException {
+    DbHandler dbHandler = DbHandler.getInstance();
+    Statement statement = dbHandler.getConnection().createStatement();
+
+    String sqlQuery = "DROP TABLE IF EXISTS REQUESTS";
+    statement.executeUpdate(sqlQuery);
+  }
+
+  void createTable() throws SQLException {
     DbHandler dbHandler = DbHandler.getInstance();
     Statement statement = dbHandler.getConnection().createStatement();
 
@@ -41,7 +49,7 @@ public class DbHandler {
     statement.executeUpdate(sqlQuery);
   }
 
-  public void insert(Request request) throws SQLException {
+  void insert(Request request) throws SQLException {
     DbHandler dbHandler = DbHandler.getInstance();
 
     int clientId = request.getClientId();
