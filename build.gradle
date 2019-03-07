@@ -22,4 +22,5 @@ dependencies {
         systemProperty "file.encoding", "UTF-8"
     }
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.25.0'
 }
