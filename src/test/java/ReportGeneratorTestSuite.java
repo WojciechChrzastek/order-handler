@@ -22,20 +22,11 @@ public class ReportGeneratorTestSuite {
     dbHandler.insert(new Request(2, 3, "Kiełbasa", 3, 5));
     dbHandler.insert(new Request(2, 4, "Dynia", 4, 10));
 
-    String input1 = "1";
-//    String input2 = "2";
-    String input3 = "3";
-//    String input4 = "4";
-    String input5 = "5";
-//    String input6 = "6";
-    String input7 = "7";
-//    String input8 = "8";
-
     //When
-    ResultSet rs1 = reportGenerator.generateReport(input1);
-    ResultSet rs3 = reportGenerator.generateReport(input3);
-    ResultSet rs5 = reportGenerator.generateReport(input5);
-    ResultSet rs7 = reportGenerator.generateReport(input7);
+    ResultSet rs1 = reportGenerator.generateReport("1");
+    ResultSet rs3 = reportGenerator.generateReport("3");
+    ResultSet rs5 = reportGenerator.generateReport("5");
+    ResultSet rs7 = reportGenerator.generateReport("7");
 
     //Then
     Assert.assertEquals(4, rs1.getInt(1));
