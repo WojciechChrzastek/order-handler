@@ -40,4 +40,22 @@ class ParserOpenCsv implements Parser {
     }
     return requestsList;
   }
+
+  public List parseTestFiles(String file) {
+    List<String[]> list = new ArrayList<>();
+    CSVReader reader = null;
+
+    try {
+      reader = new CSVReader(new FileReader(file));
+      reader.readNext();
+      String[] line;
+      while ((line = reader.readNext()) != null) {
+        list.add(line);
+      }
+    } catch (IOException e) {
+      System.out.println("File not found");
+      e.printStackTrace();
+    }
+    return list;
+  }
 }
