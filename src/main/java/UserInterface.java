@@ -1,27 +1,46 @@
 import java.util.Scanner;
 
-public class UserInterface {
+class UserInterface {
+  private ParserCsv parserCsv = new ParserCsv();
+  private ParserXml parserXml = new ParserXml();
+  private String input;
+  private Scanner scanner = new Scanner(System.in);
+
   void run() {
-    
+    System.out.println(SoutMessages.WELCOME_HEADER);
+    mainMenu();
   }
-  void selectAction() {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Which report do you want to generate?\n" +
-            "1 - total orders number" +
-            "2 - total orders number by client id" +
-            "3 - total value of orders " +
-            "4 - total value of orders by client id" +
-            "5 - list of all orders" +
-            "6 - list of all orders by client id" +
-            "7 - average order value" +
-            "8 - average order value by client id" +
-            "x - go back to previous menu" +
-            "Type chosen option and accept it using 'enter' button: ");
-    scanner.nextInt();
-    System.out.println("Select one of the following options\n" +
-            "1 - print report to the console" +
-            "2 - save report as a .csv file" +
-            "x - go back to previous menu" +
-            "Type chosen option and accept it using 'enter' button: ");
+
+  private void mainMenu() {
+    do {
+      System.out.print(SoutMessages.SELECT_ACTION);
+      input = scanner.nextLine();
+    } while (!input.equals("1") && !input.equals("2") && !input.equals("q"));
+    if (input.equals("1")) {
+      addFileMenu();
+    } else if (input.equals("2")) {
+      System.out.println("nice2");
+    } else {
+      System.exit(0);
+      System.out.println(SoutMessages.GOODBYE_FOOTER);
+    }
   }
+
+  private void addFileMenu() {
+    String filePath;
+    do {
+      System.out.print(SoutMessages.ASK_FOR_FILE_PATH);
+      filePath = scanner.nextLine();
+      if (filePath.contains(".csv")) {
+        parserCsv.parse(filePath);
+        System.out.println(SoutMessages.PARSE_SUCCESS);
+      } else if (filePath.contains(".xml")) {
+        parserXml.parse(filePath);
+        System.out.println(SoutMessages.PARSE_SUCCESS);
+      } else {
+        System.out.println(SoutMessages.FILE_NOT_FOUND);
+      }
+    } while (!filePath.contains(".csv") || !filePath.contains("xml"));
+  }
+
 }
