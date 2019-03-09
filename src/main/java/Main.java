@@ -62,11 +62,14 @@ public class Main {
 //      e.printStackTrace();
 //    }
 
-    String input = "4";
+//    String input = "4";
+//
+//    ReportGenerator reportGenerator = new ReportGenerator();
+//    ReportHandler reportHandler = new ReportHandler();
+//    reportHandler.printReportToConsole(reportGenerator.generateReport(input));
+//    reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input), input);
 
-    ReportGenerator reportGenerator = new ReportGenerator();
-    ReportHandler reportHandler = new ReportHandler();
-    reportHandler.printReportToConsole(reportGenerator.generateReport(input));
-    reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input), input);
+    UserInterface userInterface = new UserInterface();
+    userInterface.run();
   }
 }

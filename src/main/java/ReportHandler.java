@@ -12,6 +12,7 @@ import java.sql.SQLException;
 class ReportHandler {
 
   void printReportToConsole(ResultSet rs) throws SQLException {
+    System.out.println();
     ResultSetMetaData rsMetaData = rs.getMetaData();
     if (rs.getMetaData().getColumnCount() == 6) {
       System.out.format("%3s %9s %10s %8s %8s %6s",
