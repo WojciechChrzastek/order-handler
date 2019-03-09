@@ -1,6 +1,12 @@
 final class SoutMessages {
   static String WELCOME_HEADER = "***** Welcome *****";
-  static String SELECT_ACTION = "Select one of the following options:\n" +
+  static String SELECT_ACTION_MAIN = "Select one of the following options:\n" +
+          "1 - Add data from a file to the database\n" +
+          "2 - Generate report\n" +
+          "q - quit the program\n" +
+          "Type chosen option and accept it using 'enter' button: ";
+
+  static String SELECT_ACTION_ADD_FILE = "Select one of the following options:\n" +
           "1 - Add data from a file to the database\n" +
           "2 - Generate report\n" +
           "q - quit the program\n" +
@@ -8,9 +14,10 @@ final class SoutMessages {
 
   static String GOODBYE_FOOTER = "***** Goodbye *****";
   static String ASK_FOR_FILE_PATH =
-          "Please type a path to the file you want to parse and save its content to the database." +
-                  "Accept the path using 'enter' button: ";
-  static String PARSE_SUCCESS = ">>> Data successfully added to the database <<<";
+          "Please type a path to the file you want to parse and save its content to the database.\n" +
+                  "Press 'q' to return to main menu. Accept your choice using 'enter' button: ";
+  static String PARSE_SUCCESS = ">>> File successfully parsed to list of Requests <<<";
+  static String ADD_FILE_DATA_SUCCESS = ">>> Data successfully added to the database <<<";
   static String FILE_NOT_FOUND = "!!! Valid file has not been found. Please enter a valid file path. !!!";
   static String SELECT_REPORT = "Which report do you want to generate?\n" +
           "1 - total orders number\n" +
