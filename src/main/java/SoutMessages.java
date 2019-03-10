@@ -43,18 +43,13 @@ final class SoutMessages {
           "Type chosen option and accept it using 'enter' button: ";
   static String SELECT_CSV_REPORT = "Which report do you want to generate?\n" +
           "1 - total orders number\n" +
-//          "2 - total orders number by client id\n" +
-//          "3 - total value of orders\n" +
-//          "4 - total value of orders by client id\n" +
-//          "5 - list of all orders\n" +
-//          "6 - list of all orders by client id\n" +
-//          "7 - average order value\n" +
-//          "8 - average order value by client id\n" +
+          "2 - total orders number by client id\n" +
+          "3 - total value of orders\n" +
+          "4 - total value of orders by client id\n" +
+          "5 - list of all orders\n" +
+          "6 - list of all orders by client id\n" +
+          "7 - average order value\n" +
+          "8 - average order value by client id\n" +
           "q - go back to previous menu\n" +
           "Type chosen option and accept it using 'enter' button: ";
-  static String WRONG_INPUT = "Wrong input. Please type a valid input.";
-
-  private SoutMessages() {
-
-  }
 }

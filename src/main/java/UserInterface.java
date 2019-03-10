@@ -115,9 +115,10 @@ class UserInterface {
     do {
       System.out.print(SoutMessages.SELECT_CSV_REPORT);
       input = scanner.nextLine();
-    } while (!input.equals("1") && !input.equals("q"));
-    System.out.println();
-    if (input.equals("1")) {
+    } while (!input.equals("1") && !input.equals("2") && !input.equals("3") &&
+            !input.equals("4") && !input.equals("5") && !input.equals("6") &&
+            !input.equals("7") && !input.equals("8") && !input.equals("q"));
+    if (!input.equals("q")) {
       reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input), input);
       System.out.println(SoutMessages.CSV_REPORT_GENERATION_SUCCESS);
       do {
