@@ -59,7 +59,7 @@ class ReportGenerator {
   private ResultSet returnTotalOrdersNumber() throws SQLException {
     sqlQuery = "SELECT COUNT(*) AS TOTAL_ORDERS_NUMBER FROM REQUESTS";
     Statement statement = dbHandler.getConnection().createStatement();
-    ResultSet rs = statement.executeQuery(sqlQuery);
+    rs = statement.executeQuery(sqlQuery);
     rs.next();
     return rs;
   }
@@ -87,7 +87,7 @@ class ReportGenerator {
   private ResultSet returnTotalValueOfOrdersOfGivenClientId() throws SQLException {
     System.out.print("Give Client Id: ");
     clientId = scanner.nextInt();
-    sqlQuery = "SELECT SUM(PRICE) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
+    sqlQuery = "SELECT SUM(PRICE * QUANTITY) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
     PreparedStatement ps = dbHandler.getConnection().prepareStatement(sqlQuery);
     ps.setString(1, "TOTAL_VALUE_OF_ORDERS_FOR_CLIENT_ID_NO_" + clientId);
     ps.setInt(2, clientId);
@@ -97,10 +97,10 @@ class ReportGenerator {
   }
 
   private ResultSet returnListOfAllOrders() throws SQLException {
-    sqlQuery = "SELECT * FROM REQUESTS;";
+    sqlQuery = "SELECT * FROM REQUESTS";
     Statement statement = dbHandler.getConnection().createStatement();
     rs = statement.executeQuery(sqlQuery);
-    rs.next();
+    rs.beforeFirst();
     return rs;
   }
 
@@ -111,7 +111,7 @@ class ReportGenerator {
     PreparedStatement ps = dbHandler.getConnection().prepareStatement(sqlQuery);
     ps.setInt(1, clientId);
     rs = ps.executeQuery();
-    rs.next();
+    rs.beforeFirst();
     return rs;
   }
 
