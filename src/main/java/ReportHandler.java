@@ -42,18 +42,22 @@ class ReportHandler {
   }
 
   void saveReportToCsvFile(ResultSet rs, String input) throws IOException, SQLException {
-
+    String path;
     switch (input) {
-      case "1": {
-        input = "total orders number";
+      case "5": {
+        path = "LIST_OF_ALL_ORDERS";
+        break;
+      }
+      case "6": {
+        rs.next();
+        path = "LIST_OF_ALL_ORDERS_BY_CLIENT_ID_NO_" + rs.getInt("CLIENT_ID");
         break;
       }
       default: {
-        input = ("report");
+        path = rs.getMetaData().getColumnName(1);
       }
     }
-
-    String pathname = input + ".csv";
+    String pathname = path + ".csv";
     File file = new File(pathname);
     CSVWriter csvWriter = new CSVWriter(
             new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8),
