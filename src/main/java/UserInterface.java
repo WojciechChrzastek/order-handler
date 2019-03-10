@@ -76,14 +76,18 @@ class UserInterface {
     }
   }
 
-  private void showSoutReportMenu() throws SQLException, IOException {
+  private void selectReport() {
     System.out.println();
     do {
-      System.out.print(SoutMessages.SELECT_SOUT_REPORT);
+      System.out.print(SoutMessages.SELECT_REPORT);
       input = scanner.nextLine();
     } while (!input.equals("1") && !input.equals("2") && !input.equals("3") &&
             !input.equals("4") && !input.equals("5") && !input.equals("6") &&
             !input.equals("7") && !input.equals("8") && !input.equals("q"));
+  }
+
+  private void showSoutReportMenu() throws SQLException, IOException {
+    selectReport();
     if (!input.equals("q")) {
       reportHandler.printReportToConsole(reportGenerator.generateReport(input));
       do {
@@ -111,13 +115,7 @@ class UserInterface {
   }
 
   private void showCsvReportMenu() throws SQLException, IOException {
-    System.out.println();
-    do {
-      System.out.print(SoutMessages.SELECT_CSV_REPORT);
-      input = scanner.nextLine();
-    } while (!input.equals("1") && !input.equals("2") && !input.equals("3") &&
-            !input.equals("4") && !input.equals("5") && !input.equals("6") &&
-            !input.equals("7") && !input.equals("8") && !input.equals("q"));
+    selectReport();
     if (!input.equals("q")) {
       reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input), input);
       System.out.println(SoutMessages.CSV_REPORT_GENERATION_SUCCESS);
