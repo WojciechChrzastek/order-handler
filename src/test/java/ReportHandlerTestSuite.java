@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,12 +21,12 @@ public class ReportHandlerTestSuite {
     DbHandler dbHandler = DbHandler.getInstance();
     dbHandler.deleteTable();
     dbHandler.createTable();
-    dbHandler.insert(new Request(1, 1, "Pączek", 1, 1));
-    dbHandler.insert(new Request(1, 2, "Ciastko", 2, 2));
-    dbHandler.insert(new Request(2, 3, "Kiełbasa", 3, 5));
-    dbHandler.insert(new Request(2, 4, "Dynia", 4, 10));
+    dbHandler.insert(new Request("1", 1, "Pączek", 1, new BigDecimal(1)));
+    dbHandler.insert(new Request("1", 2, "Ciastko", 2, new BigDecimal(2)));
+    dbHandler.insert(new Request("2", 3, "Kiełbasa", 3, new BigDecimal(5)));
+    dbHandler.insert(new Request("2", 4, "Dynia", 4, new BigDecimal(10)));
     String separator = System.getProperty("line.separator");
-    String s = "TOTAL_ORDERS_NUMBER" + separator + "4" + separator;
+    String s = separator + "TOTAL_ORDERS_NUMBER" + separator + "4" + separator;
     String input = "1";
 
     //When
@@ -47,10 +48,10 @@ public class ReportHandlerTestSuite {
     DbHandler dbHandler = DbHandler.getInstance();
     dbHandler.deleteTable();
     dbHandler.createTable();
-    dbHandler.insert(new Request(1, 1, "Pączek", 1, 1));
-    dbHandler.insert(new Request(1, 2, "Ciastko", 2, 2));
-    dbHandler.insert(new Request(2, 3, "Kiełbasa", 3, 5));
-    dbHandler.insert(new Request(2, 4, "Dynia", 4, 10));
+    dbHandler.insert(new Request("1", 1, "Pączek", 1, new BigDecimal(1)));
+    dbHandler.insert(new Request("1", 2, "Ciastko", 2, new BigDecimal(2)));
+    dbHandler.insert(new Request("2", 3, "Kiełbasa", 3, new BigDecimal(5)));
+    dbHandler.insert(new Request("2", 4, "Dynia", 4, new BigDecimal(10)));
     String input = "1";
     ParserOpenCsv parserOpenCsv = new ParserOpenCsv();
 
@@ -59,7 +60,7 @@ public class ReportHandlerTestSuite {
 
     //Then
     List list1 = parserOpenCsv.parseTestFiles("testing_file.csv");
-    List list2 = parserOpenCsv.parseTestFiles("total orders number.csv");
+    List list2 = parserOpenCsv.parseTestFiles("TOTAL_ORDERS_NUMBER.csv");
 
     Assert.assertArrayEquals(list1.toArray(), list2.toArray());
 

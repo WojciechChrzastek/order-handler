@@ -1,6 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -50,7 +51,7 @@ public class DbHandlerTestSuite {
     rs.next();
     int rowsNumberBeforeInsert = rs.getInt(1);
 
-    Request r = new Request(5, 8, "Roll", 16, 26.14);
+    Request r = new Request("5", 8, "Roll", 16, new BigDecimal(26.14));
 
     //When
     dbHandler.insert(r);

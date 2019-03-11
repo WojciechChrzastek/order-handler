@@ -2,12 +2,12 @@ import com.opencsv.CSVReader;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 class ParserOpenCsv implements Parser {
   private List<Request> requestsList = null;
-  private Request request = null;
 
   @Override
   public List<Request> getRequestsList() {
@@ -25,12 +25,12 @@ class ParserOpenCsv implements Parser {
       String[] line;
       while ((line = reader.readNext()) != null) {
 
-        request = new Request();
-        request.setClientId(Integer.parseInt(line[0]));
-        request.setRequestId(Integer.parseInt(line[1]));
+        Request request = new Request();
+        request.setClientId(line[0]);
+        request.setRequestId(Long.parseLong(line[1]));
         request.setName(line[2]);
         request.setQuantity(Integer.parseInt(line[3]));
-        request.setPrice(Double.parseDouble(line[4]));
+        request.setPrice(new BigDecimal(line[4]));
         requestsList.add(request);
 
       }
@@ -41,9 +41,9 @@ class ParserOpenCsv implements Parser {
     return requestsList;
   }
 
-  public List parseTestFiles(String file) {
+  List parseTestFiles(String file) {
     List<String[]> list = new ArrayList<>();
-    CSVReader reader = null;
+    CSVReader reader;
 
     try {
       reader = new CSVReader(new FileReader(file));

@@ -7,6 +7,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,17 +71,18 @@ class ParserXml extends DefaultHandler implements Parser {
       request.setName(data.toString());
       name = false;
     } else if (clientId) {
-      request.setClientId(Integer.parseInt(data.toString()));
+      request.setClientId(data.toString());
       clientId = false;
     } else if (requestId) {
-      request.setRequestId(Integer.parseInt(data.toString()));
+      request.setRequestId(Long.parseLong(data.toString()));
       requestId = false;
     } else if (quantity) {
       request.setQuantity(Integer.parseInt(data.toString()));
       quantity = false;
     } else if (price) {
-      request.setPrice(Double.parseDouble(data.toString()));
+      request.setPrice(new BigDecimal(data.toString()));
       price = false;
+
     }
     if (qName.equalsIgnoreCase("Request")) {
       requestsList.add(request);

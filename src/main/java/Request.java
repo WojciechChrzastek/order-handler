@@ -1,11 +1,13 @@
+import java.math.BigDecimal;
+
 class Request {
-  private int clientId;
-  private int requestId;
+  private String clientId;
+  private long requestId;
   private String name;
   private int quantity;
-  private double price;
+  private BigDecimal price;
 
-  Request(int clientId, int requestId, String name, int quantity, double price) {
+  Request(String clientId, long requestId, String name, int quantity, BigDecimal price) {
     this.clientId = clientId;
     this.requestId = requestId;
     this.name = name;
@@ -16,19 +18,19 @@ class Request {
   public Request() {
   }
 
-  int getClientId() {
+  String getClientId() {
     return clientId;
   }
 
-  void setClientId(int clientId) {
+  void setClientId(String clientId) {
     this.clientId = clientId;
   }
 
-  int getRequestId() {
+  long getRequestId() {
     return requestId;
   }
 
-  void setRequestId(int requestId) {
+  void setRequestId(long requestId) {
     this.requestId = requestId;
   }
 
@@ -48,11 +50,11 @@ class Request {
     this.quantity = quantity;
   }
 
-  double getPrice() {
+  BigDecimal getPrice() {
     return price;
   }
 
-  void setPrice(double price) {
+  void setPrice(BigDecimal price) {
     this.price = price;
   }
 
@@ -63,30 +65,27 @@ class Request {
 
     Request request = (Request) o;
 
-    if (clientId != request.clientId) return false;
     if (requestId != request.requestId) return false;
     if (quantity != request.quantity) return false;
-    if (Double.compare(request.price, price) != 0) return false;
-    return name != null ? name.equals(request.name) : request.name == null;
+    if (clientId != null ? !clientId.equals(request.clientId) : request.clientId != null) return false;
+    if (name != null ? !name.equals(request.name) : request.name != null) return false;
+    return price != null ? price.equals(request.price) : request.price == null;
   }
 
   @Override
   public int hashCode() {
-    int result;
-    long temp;
-    result = clientId;
-    result = 31 * result + requestId;
+    int result = clientId != null ? clientId.hashCode() : 0;
+    result = 31 * result + (int) (requestId ^ (requestId >>> 32));
     result = 31 * result + (name != null ? name.hashCode() : 0);
     result = 31 * result + quantity;
-    temp = Double.doubleToLongBits(price);
-    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    result = 31 * result + (price != null ? price.hashCode() : 0);
     return result;
   }
 
   @Override
   public String toString() {
     return "Request{" +
-            "clientId=" + clientId +
+            "clientId='" + clientId + '\'' +
             ", requestId=" + requestId +
             ", name='" + name + '\'' +
             ", quantity=" + quantity +

@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Properties;
 
@@ -40,11 +41,11 @@ class DbHandler {
     String sqlQuery = "CREATE TABLE IF NOT EXISTS REQUESTS " +
             "(" +
             "ID SERIAL PRIMARY KEY, " +
-            "CLIENT_ID INT(20) UNSIGNED, " +
-            "REQUEST_ID INT(20) UNSIGNED, " +
+            "CLIENT_ID CHAR(6), " +
+            "REQUEST_ID BIGINT UNSIGNED, " +
             "NAME VARCHAR(255) CHARSET utf8, " +
             "QUANTITY INT UNSIGNED, " +
-            "PRICE DECIMAL (9,2) UNSIGNED " +
+            "PRICE DECIMAL (19,2) UNSIGNED " +
             ")";
     statement.executeUpdate(sqlQuery);
   }
@@ -52,22 +53,22 @@ class DbHandler {
   void insert(Request request) throws SQLException {
     DbHandler dbHandler = DbHandler.getInstance();
 
-    int clientId = request.getClientId();
-    int requestId = request.getRequestId();
+    String clientId = request.getClientId();
+    long requestId = request.getRequestId();
     String name = request.getName();
     int quantity = request.getQuantity();
-    double price = request.getPrice();
+    BigDecimal price = request.getPrice();
 
     PreparedStatement ps = dbHandler.getConnection().prepareStatement(
             "INSERT INTO REQUESTS" +
                     " (CLIENT_ID, REQUEST_ID, NAME, QUANTITY, PRICE)" +
                     " VALUES (?, ?, ?, ?, ?)");
 
-    ps.setInt(1, clientId);
-    ps.setInt(2, requestId);
+    ps.setString(1, clientId);
+    ps.setLong(2, requestId);
     ps.setString(3, name);
     ps.setInt(4, quantity);
-    ps.setDouble(5, price);
+    ps.setBigDecimal(5, price);
 
     ps.executeUpdate();
   }

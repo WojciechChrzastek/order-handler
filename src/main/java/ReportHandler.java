@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -27,11 +28,11 @@ class ReportHandler {
 
       while (rs.next()) {
         int id = rs.getInt("id");
-        int client_id = rs.getInt("client_id");
-        int request_id = rs.getInt("request_id");
+        String client_id = rs.getString("client_id");
+        long request_id = rs.getLong("request_id");
         String name = rs.getString("name");
         int quantity = rs.getInt("quantity");
-        double price = rs.getInt("price");
+        BigDecimal price = rs.getBigDecimal("price");
 
         System.out.format("%3s %9s %10s %8s %8s %6s\n", id, client_id, request_id, name, quantity, price);
       }
