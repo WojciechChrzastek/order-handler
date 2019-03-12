@@ -1,10 +1,12 @@
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class DbHandlerTestSuite {
   @Test
@@ -13,7 +15,7 @@ public class DbHandlerTestSuite {
     //When
     DbHandler dbHandler = DbHandler.getInstance();
     //Then
-    Assert.assertNotNull(dbHandler.getConnection());
+    assertNotNull(dbHandler.getConnection());
   }
 
   @Test
@@ -30,7 +32,7 @@ public class DbHandlerTestSuite {
     ResultSet rs = statement.executeQuery(sqlQuery);
     rs.next();
 
-    Assert.assertEquals(1, rs.getInt(1));
+    assertEquals(1, rs.getInt(1));
 
     //Clean up after the test
     if (rs.getInt(1) == 1) {
@@ -61,7 +63,7 @@ public class DbHandlerTestSuite {
     rs2.next();
     int rowsNumberAfterInsert = rs2.getInt(1);
 
-    Assert.assertEquals(rowsNumberBeforeInsert + 1, rowsNumberAfterInsert);
+    assertEquals(rowsNumberBeforeInsert + 1, rowsNumberAfterInsert);
 
     //Clean up after the test
     if (rowsNumberBeforeInsert + 1 == rowsNumberAfterInsert) {

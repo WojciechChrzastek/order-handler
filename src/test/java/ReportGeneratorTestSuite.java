@@ -1,4 +1,3 @@
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -8,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class ReportGeneratorTestSuite {
 
@@ -30,8 +31,8 @@ public class ReportGeneratorTestSuite {
     ResultSet rs7 = reportGenerator.generateReport("7");
 
     //Then
-    Assert.assertEquals(4, rs1.getInt(1));
-    Assert.assertEquals(18, rs3.getInt(1));
+    assertEquals(4, rs1.getInt(1));
+    assertEquals(18, rs3.getInt(1));
 
     List<Request> requestList = new ArrayList<>();
     rs5.beforeFirst();
@@ -46,14 +47,14 @@ public class ReportGeneratorTestSuite {
     }
 
     //Error while asserting BigDecimals
-    Assert.assertThat(requestList, containsInAnyOrder(
+    assertThat(requestList, containsInAnyOrder(
             new Request("1", 1, "Pączek", 1, requestList.get(0).getPrice()),
             new Request("1", 1, "Ciastko", 1, requestList.get(1).getPrice()),
             new Request("2", 1, "Kiełbasa", 1, requestList.get(2).getPrice()),
             new Request("2", 1, "Dynia", 1, requestList.get(3).getPrice())
     ));
 
-    Assert.assertEquals(4, rs7.getInt(1));
+    assertEquals(4, rs7.getInt(1));
 
     //Clean up after the test
     dbHandler.deleteTable();

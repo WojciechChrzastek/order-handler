@@ -1,9 +1,11 @@
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class ParserCsvTestSuite {
   @Test
@@ -16,12 +18,12 @@ public class ParserCsvTestSuite {
     requestsList = parserCsv.parse("requests_test_file.csv");
 
     //Then
-    Assert.assertEquals(4, requestsList.size());
-    Assert.assertEquals(1, requestsList.get(0).getRequestId());
-    Assert.assertEquals("1", requestsList.get(1).getClientId());
-    Assert.assertEquals("Bułka", requestsList.get(0).getName());
-    Assert.assertEquals(1, requestsList.get(0).getQuantity());
-    Assert.assertThat(new BigDecimal(10.00), Matchers.comparesEqualTo(requestsList.get(0).getPrice()));
+    assertEquals(4, requestsList.size());
+    assertEquals(1, requestsList.get(0).getRequestId());
+    assertEquals("1", requestsList.get(1).getClientId());
+    assertEquals("Bułka", requestsList.get(0).getName());
+    assertEquals(1, requestsList.get(0).getQuantity());
+    assertThat(new BigDecimal(10.00), Matchers.comparesEqualTo(requestsList.get(0).getPrice()));
   }
 
   @Test
@@ -34,6 +36,6 @@ public class ParserCsvTestSuite {
     List<Request> requestList2 = parserCsv.getRequestsList();
 
     //Then
-    Assert.assertEquals(requestsList1, requestList2);
+    assertEquals(requestsList1, requestList2);
   }
 }

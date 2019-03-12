@@ -1,4 +1,3 @@
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -7,6 +6,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ReportHandlerTestSuite {
   @Rule
@@ -33,7 +35,7 @@ public class ReportHandlerTestSuite {
     reportHandler.printReportToConsole(reportGenerator.generateReport(input));
 
     //Then
-    Assert.assertEquals(s, systemOutRule.getLog());
+    assertEquals(s, systemOutRule.getLog());
 
     //Clean up after the test
     dbHandler.deleteTable();
@@ -62,7 +64,7 @@ public class ReportHandlerTestSuite {
     List list1 = parserOpenCsv.parseTestFiles("testing_file.csv");
     List list2 = parserOpenCsv.parseTestFiles("TOTAL_ORDERS_NUMBER.csv");
 
-    Assert.assertArrayEquals(list1.toArray(), list2.toArray());
+    assertArrayEquals(list1.toArray(), list2.toArray());
 
     //Clean up after the test
     dbHandler.deleteTable();
