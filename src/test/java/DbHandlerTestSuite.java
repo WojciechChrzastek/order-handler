@@ -9,11 +9,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class DbHandlerTestSuite {
+  private DbHandler dbHandler = DbHandler.getInstance();
+
   @Test
   public void testConnect() throws SQLException {
     //Given
+
     //When
-    DbHandler dbHandler = DbHandler.getInstance();
+
     //Then
     assertNotNull(dbHandler.getConnection());
   }
@@ -21,7 +24,6 @@ public class DbHandlerTestSuite {
   @Test
   public void testCreateTable() throws SQLException {
     //Given
-    DbHandler dbHandler = DbHandler.getInstance();
 
     //When
     dbHandler.createTable();
@@ -45,7 +47,6 @@ public class DbHandlerTestSuite {
   @Test
   public void testInsert() throws SQLException {
     //Given
-    DbHandler dbHandler = DbHandler.getInstance();
     dbHandler.createTable();
     String sqlQuery = "SELECT COUNT(*) FROM REQUESTS";
     Statement statement = dbHandler.getConnection().createStatement();
@@ -72,5 +73,8 @@ public class DbHandlerTestSuite {
     statement.executeUpdate("DROP TABLE REQUESTS");
     statement.close();
     rs.close();
+  }
+
+  public DbHandlerTestSuite() throws SQLException {
   }
 }

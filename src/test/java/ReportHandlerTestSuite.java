@@ -1,3 +1,5 @@
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -11,22 +13,32 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class ReportHandlerTestSuite {
-  @Rule
-  public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+  private ReportGenerator reportGenerator = new ReportGenerator();
+  private ReportHandler reportHandler = new ReportHandler();
+  private DbHandler dbHandler = DbHandler.getInstance();
 
-  @Test
-  public void testPrintReportToConsole() throws SQLException {
-
-    //Given
-    ReportGenerator reportGenerator = new ReportGenerator();
-    ReportHandler reportHandler = new ReportHandler();
-    DbHandler dbHandler = DbHandler.getInstance();
+  @Before
+  public void init() throws SQLException {
     dbHandler.deleteTable();
     dbHandler.createTable();
     dbHandler.insert(new Request("1", 1, "Pączek", 1, new BigDecimal(1)));
     dbHandler.insert(new Request("1", 2, "Ciastko", 2, new BigDecimal(2)));
     dbHandler.insert(new Request("2", 3, "Kiełbasa", 3, new BigDecimal(5)));
     dbHandler.insert(new Request("2", 4, "Dynia", 4, new BigDecimal(10)));
+  }
+
+  @After
+  public void after() throws SQLException {
+    dbHandler.deleteTable();
+  }
+
+
+  @Rule
+  public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+
+  @Test
+  public void testPrintReportToConsole() throws SQLException {
+    //Given
     String separator = System.getProperty("line.separator");
     String s = separator + "TOTAL_ORDERS_NUMBER" + separator + "4" + separator;
     String input = "1";
@@ -38,22 +50,11 @@ public class ReportHandlerTestSuite {
     assertEquals(s, systemOutRule.getLog());
 
     //Clean up after the test
-    dbHandler.deleteTable();
   }
 
   @Test
   public void saveReportToCsvFile() throws SQLException, IOException {
-
     //Given
-    ReportGenerator reportGenerator = new ReportGenerator();
-    ReportHandler reportHandler = new ReportHandler();
-    DbHandler dbHandler = DbHandler.getInstance();
-    dbHandler.deleteTable();
-    dbHandler.createTable();
-    dbHandler.insert(new Request("1", 1, "Pączek", 1, new BigDecimal(1)));
-    dbHandler.insert(new Request("1", 2, "Ciastko", 2, new BigDecimal(2)));
-    dbHandler.insert(new Request("2", 3, "Kiełbasa", 3, new BigDecimal(5)));
-    dbHandler.insert(new Request("2", 4, "Dynia", 4, new BigDecimal(10)));
     String input = "1";
     ParserOpenCsv parserOpenCsv = new ParserOpenCsv();
 
@@ -67,7 +68,9 @@ public class ReportHandlerTestSuite {
     assertArrayEquals(list1.toArray(), list2.toArray());
 
     //Clean up after the test
-    dbHandler.deleteTable();
-//    Files.deleteIfExists(Paths.get("total orders number.csv"));
+//    Files.deleteIfExists(Paths.get("TOTAL_ORDERS_NUMBER.csv"));
+  }
+
+  public ReportHandlerTestSuite() throws SQLException {
   }
 }

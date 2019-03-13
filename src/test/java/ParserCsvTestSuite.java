@@ -8,11 +8,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class ParserCsvTestSuite {
+  private ParserCsv parserCsv = new ParserCsv();
+  private List<Request> requestsList;
+
   @Test
   public void testParse() {
     //Given
-    ParserCsv parserCsv = new ParserCsv();
-    List<Request> requestsList;
 
     //When
     requestsList = parserCsv.parse("requests_test_file.csv");
@@ -29,13 +30,12 @@ public class ParserCsvTestSuite {
   @Test
   public void testGetRequestsList() {
     //Given
-    ParserCsv parserCsv = new ParserCsv();
-    List<Request> requestsList1 = parserCsv.parse("requests_test_file.csv");
+    requestsList = parserCsv.parse("requests_test_file.csv");
 
     //When
     List<Request> requestList2 = parserCsv.getRequestsList();
 
     //Then
-    assertEquals(requestsList1, requestList2);
+    assertEquals(requestsList, requestList2);
   }
 }

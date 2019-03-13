@@ -8,11 +8,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class ParserXmlTestSuite {
+  private ParserXml parserXml = new ParserXml();
+  private List<Request> requestsList;
+
   @Test
   public void testParse() {
     //Given
-    ParserXml parserXml = new ParserXml();
-    List<Request> requestsList;
 
     //When
     requestsList = parserXml.parse("requests.xml");
@@ -29,13 +30,12 @@ public class ParserXmlTestSuite {
   @Test
   public void testGetRequestsList() {
     //Given
-    ParserXml parserXml = new ParserXml();
-    List<Request> requestsList1 = parserXml.parse("requests.xml");
+    requestsList = parserXml.parse("requests.xml");
 
     //When
     List<Request> requestList2 = parserXml.getRequestsList();
 
     //Then
-    assertEquals(requestsList1, requestList2);
+    assertEquals(requestsList, requestList2);
   }
 }
