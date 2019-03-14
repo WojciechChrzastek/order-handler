@@ -32,7 +32,6 @@ public class ReportHandlerTestSuite {
     dbHandler.deleteTable();
   }
 
-
   @Rule
   public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
 
