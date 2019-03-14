@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -46,12 +47,11 @@ public class ReportGeneratorTestSuite {
       requestList.add(request);
     }
 
-    //Error while asserting BigDecimals
     assertThat(requestList, containsInAnyOrder(
-            new Request("1", 1, "Pączek", 1, requestList.get(0).getPrice()),
-            new Request("1", 1, "Ciastko", 1, requestList.get(1).getPrice()),
-            new Request("2", 1, "Kiełbasa", 1, requestList.get(2).getPrice()),
-            new Request("2", 1, "Dynia", 1, requestList.get(3).getPrice())
+            new Request("1", 1, "Pączek", 1, new BigDecimal(1.00).setScale(2, RoundingMode.HALF_UP)),
+            new Request("1", 1, "Ciastko", 1,  new BigDecimal(2.00).setScale(2, RoundingMode.HALF_UP)),
+            new Request("2", 1, "Kiełbasa", 1,  new BigDecimal(5.00).setScale(2, RoundingMode.HALF_UP)),
+            new Request("2", 1, "Dynia", 1, new BigDecimal(10.00).setScale(2, RoundingMode.HALF_UP))
     ));
 
     assertEquals(4, rs7.getInt(1));
