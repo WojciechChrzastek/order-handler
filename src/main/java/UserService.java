@@ -3,7 +3,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-class UserInterface {
+class UserService {
   private ParserCsv parserCsv = new ParserCsv();
   private ParserXml parserXml = new ParserXml();
   private String input;
@@ -143,6 +143,6 @@ class UserInterface {
     }
   }
 
-  UserInterface() throws SQLException {
+  UserService() throws SQLException {
   }
 }

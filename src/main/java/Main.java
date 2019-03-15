@@ -3,7 +3,7 @@ import java.sql.SQLException;
 
 public class Main {
   public static void main(String[] args) throws IOException, SQLException {
-    UserInterface userInterface = new UserInterface();
-    userInterface.run();
+    UserService userService = new UserService();
+    userService.run();
   }
 }
