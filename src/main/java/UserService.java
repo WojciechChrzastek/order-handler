@@ -40,23 +40,21 @@ class UserService {
       System.out.print(SoutMessages.ASK_FOR_FILE_PATH);
       input = scanner.nextLine();
       if (input.contains(".csv")) {
-        parseAndAddToDatabase(parserCsv.parse(input));
+        handleInput(parserCsv.parse(input));
       } else if (input.contains(".xml")) {
-        parseAndAddToDatabase(parserXml.parse(input));
+        handleInput(parserXml.parse(input));
       } else if (input.equals("q")) {
         showMainMenu();
       } else {
         System.out.println(SoutMessages.FILE_NOT_FOUND);
         System.out.println();
       }
-    } while (!input.contains(".csv") && !input.contains("xml") && !input.equals("q"));
+    } while (!input.contains(".csv") && !input.contains(".xml") && !input.equals("q"));
   }
 
-  private void parseAndAddToDatabase(List<Request> requestList) throws SQLException, IOException {
+  private void handleInput(List requestsList) throws SQLException, IOException {
     System.out.println(SoutMessages.PARSE_SUCCESS);
-    for (Request r : requestList) {
-      dbHandler.insert(r);
-    }
+    dbHandler.addRequestsListToDatabase(requestsList);
     System.out.println(SoutMessages.ADD_FILE_DATA_SUCCESS);
     showMainMenu();
   }

@@ -1,5 +1,6 @@
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.List;
 import java.util.Properties;
 
 class DbHandler {
@@ -26,14 +27,6 @@ class DbHandler {
     return conn;
   }
 
-  void deleteTable() throws SQLException {
-    DbHandler dbHandler = DbHandler.getInstance();
-    Statement statement = dbHandler.getConnection().createStatement();
-
-    String sqlQuery = "DROP TABLE IF EXISTS REQUESTS";
-    statement.executeUpdate(sqlQuery);
-  }
-
   void createTable() throws SQLException {
     DbHandler dbHandler = DbHandler.getInstance();
     Statement statement = dbHandler.getConnection().createStatement();
@@ -47,6 +40,14 @@ class DbHandler {
             "QUANTITY INT UNSIGNED, " +
             "PRICE DECIMAL (19,2) UNSIGNED " +
             ")";
+    statement.executeUpdate(sqlQuery);
+  }
+
+  void deleteTable() throws SQLException {
+    DbHandler dbHandler = DbHandler.getInstance();
+    Statement statement = dbHandler.getConnection().createStatement();
+
+    String sqlQuery = "DROP TABLE IF EXISTS REQUESTS";
     statement.executeUpdate(sqlQuery);
   }
 
@@ -71,5 +72,12 @@ class DbHandler {
     ps.setBigDecimal(5, price);
 
     ps.executeUpdate();
+  }
+
+  void addRequestsListToDatabase(List<Request> requestsList) throws SQLException {
+    for (Request r : requestsList) {
+      // ==>>> walidacja
+      insert(r);
+    }
   }
 }
