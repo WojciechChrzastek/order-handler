@@ -61,7 +61,7 @@ public class ReportHandlerTestSuite {
     reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input), input);
 
     //Then
-    List list1 = parserOpenCsv.parseTestFiles("testing_file.csv");
+    List list1 = parserOpenCsv.parseTestFiles("test.csv");
     List list2 = parserOpenCsv.parseTestFiles("TOTAL_ORDERS_NUMBER.csv");
 
     assertArrayEquals(list1.toArray(), list2.toArray());

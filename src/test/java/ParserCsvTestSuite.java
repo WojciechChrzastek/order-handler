@@ -16,7 +16,7 @@ public class ParserCsvTestSuite {
     //Given
 
     //When
-    requestsList = parserCsv.parse("requests_test_file.csv");
+    requestsList = parserCsv.parse("test.csv");
 
     //Then
     assertEquals(4, requestsList.size());
@@ -30,7 +30,7 @@ public class ParserCsvTestSuite {
   @Test
   public void testGetRequestsList() {
     //Given
-    requestsList = parserCsv.parse("requests_test_file.csv");
+    requestsList = parserCsv.parse("test.csv");
 
     //When
     List<Request> requestList2 = parserCsv.getRequestsList();

@@ -16,7 +16,7 @@ public class ParserXmlTestSuite {
     //Given
 
     //When
-    requestsList = parserXml.parse("requests.xml");
+    requestsList = parserXml.parse("test.xml");
 
     //Then
     assertEquals(4, requestsList.size());
@@ -30,7 +30,7 @@ public class ParserXmlTestSuite {
   @Test
   public void testGetRequestsList() {
     //Given
-    requestsList = parserXml.parse("requests.xml");
+    requestsList = parserXml.parse("test.xml");
 
     //When
     List<Request> requestList2 = parserXml.getRequestsList();
