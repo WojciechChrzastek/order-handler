@@ -78,4 +78,9 @@ public class ParserCsvListReader implements Parser {
   public List<Request> getRequestsList() {
     return requestsList;
   }
+
+  @Override
+  public boolean validate(String line, int lineNumber) {
+    return false;
+  }
 }

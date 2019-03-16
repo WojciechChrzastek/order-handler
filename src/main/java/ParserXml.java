@@ -28,6 +28,11 @@ class ParserXml extends DefaultHandler implements Parser {
   }
 
   @Override
+  public boolean validate(String line, int lineNumber) {
+    return false;
+  }
+
+  @Override
   public List parse(String file) {
 
     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
