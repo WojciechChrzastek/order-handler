@@ -17,14 +17,13 @@ class ParserOpenCsv implements Parser {
   @Override
   public List parse(String file) {
     requestsList = new ArrayList<>();
-    CSVReader reader = null;
+    CSVReader reader;
 
     try {
       reader = new CSVReader(new FileReader(file));
       reader.readNext();
       String[] line;
       while ((line = reader.readNext()) != null) {
-
         Request request = new Request();
         request.setClientId(line[0]);
         request.setRequestId(Long.parseLong(line[1]));
@@ -32,8 +31,8 @@ class ParserOpenCsv implements Parser {
         request.setQuantity(Integer.parseInt(line[3]));
         request.setPrice(new BigDecimal(line[4]));
         requestsList.add(request);
-
       }
+      reader.close();
     } catch (IOException e) {
       System.out.println("File not found");
       e.printStackTrace();
@@ -52,6 +51,7 @@ class ParserOpenCsv implements Parser {
       while ((line = reader.readNext()) != null) {
         list.add(line);
       }
+      reader.close();
     } catch (IOException e) {
       System.out.println("File not found");
       e.printStackTrace();

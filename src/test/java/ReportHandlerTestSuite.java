@@ -6,6 +6,8 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -61,13 +63,13 @@ public class ReportHandlerTestSuite {
     reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input), input);
 
     //Then
-    List list1 = parserOpenCsv.parseTestFiles("test.csv");
+    List list1 = parserOpenCsv.parseTestFiles("test_TOTAL_ORDERS_NUMBER.csv");
     List list2 = parserOpenCsv.parseTestFiles("TOTAL_ORDERS_NUMBER.csv");
 
     assertArrayEquals(list1.toArray(), list2.toArray());
 
     //Clean up after the test
-//    Files.deleteIfExists(Paths.get("TOTAL_ORDERS_NUMBER.csv"));
+    Files.deleteIfExists(Paths.get("TOTAL_ORDERS_NUMBER.csv"));
   }
 
   public ReportHandlerTestSuite() throws SQLException {

@@ -22,15 +22,12 @@ class ParserCsv implements Parser {
       br.readLine();
       while ((line = br.readLine()) != null) {
         requestsArray = line.split(",");
-
         Request request = new Request();
-
         request.setClientId(requestsArray[0]);
         request.setRequestId(Long.parseLong(requestsArray[1]));
         request.setName(requestsArray[2]);
         request.setQuantity(Integer.parseInt(requestsArray[3]));
         request.setPrice(new BigDecimal(requestsArray[4]));
-
         requestsList.add(request);
       }
     } catch (IOException e) {
