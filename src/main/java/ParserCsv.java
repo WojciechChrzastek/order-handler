@@ -8,7 +8,6 @@ import java.util.List;
 class ParserCsv implements Parser {
   private List<Request> requestsList = null;
   private int lineNumber = 0;
-  private FileValidator fileValidator = new FileValidator();
 
   public List<Request> getRequestsList() {
     return requestsList;

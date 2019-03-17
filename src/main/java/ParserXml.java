@@ -14,9 +14,7 @@ import java.util.List;
 class ParserXml extends DefaultHandler implements Parser {
   private List<Request> requestsList = null;
   private Request request = null;
-
   private StringBuilder data = null;
-
   private boolean clientId = false;
   private boolean requestId = false;
   private boolean name = false;
@@ -41,9 +39,7 @@ class ParserXml extends DefaultHandler implements Parser {
       SAXParser saxParser = saxParserFactory.newSAXParser();
       ParserXml handler = new ParserXml();
       saxParser.parse(new File(file), handler);
-
       requestsList = handler.getRequestsList();
-
     } catch (ParserConfigurationException | SAXException | IOException e) {
       e.printStackTrace();
     }
@@ -51,11 +47,12 @@ class ParserXml extends DefaultHandler implements Parser {
   }
 
   @Override
-  public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+  public void startElement(String uri, String localName, String qName, Attributes attributes) {
     if (qName.equalsIgnoreCase("Request")) {
       request = new Request();
       if (requestsList == null)
         requestsList = new ArrayList<>();
+
     } else if (qName.equalsIgnoreCase("clientId")) {
       clientId = true;
     } else if (qName.equalsIgnoreCase("requestId")) {
@@ -71,7 +68,7 @@ class ParserXml extends DefaultHandler implements Parser {
   }
 
   @Override
-  public void endElement(String uri, String localName, String qName) throws SAXException {
+  public void endElement(String uri, String localName, String qName) {
     if (name) {
       request.setName(data.toString());
       name = false;
@@ -87,7 +84,6 @@ class ParserXml extends DefaultHandler implements Parser {
     } else if (price) {
       request.setPrice(new BigDecimal(data.toString()));
       price = false;
-
     }
     if (qName.equalsIgnoreCase("Request")) {
       requestsList.add(request);
@@ -95,7 +91,7 @@ class ParserXml extends DefaultHandler implements Parser {
   }
 
   @Override
-  public void characters(char[] ch, int start, int length) throws SAXException {
+  public void characters(char[] ch, int start, int length) {
     data.append(new String(ch, start, length));
   }
 }
