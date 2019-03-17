@@ -8,15 +8,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class ParserCsvTestSuite {
-  private ParserCsv parserCsv = new ParserCsv();
-  private List<Request> requestsList;
 
   @Test
   public void testParse() {
     //Given
+    ParserCsv parserCsv = new ParserCsv();
+    ParserCsv parserCsv2 = new ParserCsv();
 
     //When
-    requestsList = parserCsv.parse("test.csv");
+    List<Request> requestsList = parserCsv.parse("test.csv");
+    List<Request> requestsListMissing = parserCsv2.parse("test_missing.csv");
 
     //Then
     assertEquals(4, requestsList.size());
@@ -25,12 +26,20 @@ public class ParserCsvTestSuite {
     assertEquals("Bułka", requestsList.get(0).getName());
     assertEquals(1, requestsList.get(0).getQuantity());
     assertThat(new BigDecimal(10.00), Matchers.comparesEqualTo(requestsList.get(0).getPrice()));
+
+    assertEquals(3, requestsListMissing.size());
+    assertEquals(1, requestsListMissing.get(2).getRequestId());
+    assertEquals("2", requestsListMissing.get(2).getClientId());
+    assertEquals("Chleb", requestsListMissing.get(2).getName());
+    assertEquals(1, requestsListMissing.get(2).getQuantity());
+    assertThat(new BigDecimal(10.00), Matchers.comparesEqualTo(requestsListMissing.get(2).getPrice()));
   }
 
   @Test
   public void testGetRequestsList() {
     //Given
-    requestsList = parserCsv.parse("test.csv");
+    ParserCsv parserCsv = new ParserCsv();
+    List<Request> requestsList = parserCsv.parse("test.csv");
 
     //When
     List<Request> requestList2 = parserCsv.getRequestsList();
