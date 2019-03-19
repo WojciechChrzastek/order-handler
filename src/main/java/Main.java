@@ -4,6 +4,13 @@ public class Main {
 //    userService.run();
     InMemoryDbHandler inMemoryDbHandler = new InMemoryDbHandler();
     inMemoryDbHandler.setDatabase();
-    inMemoryDbHandler.test();
+    inMemoryDbHandler.createTable();
+    inMemoryDbHandler.insert();
+
+    ReportHandler reportHandler = new ReportHandler();
+    reportHandler.printReportToConsole(inMemoryDbHandler.returnListOfAllOrders());
+
+    inMemoryDbHandler.closeDb();
+    System.exit(0);
   }
 }
