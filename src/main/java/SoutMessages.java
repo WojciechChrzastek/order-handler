@@ -1,24 +1,21 @@
 final class SoutMessages {
-  static String ASK_FOR_ANOTHER_CSV_REPORT = "Select one of the following options:\n" +
-          "1 - Generate another .csv report\n" +
-          "2 - Return to report type menu\n" +
-          "3 - Return to main menu\n" +
-          "q - quit the program\n" +
-          "Type chosen option and accept it using 'enter' button: ";
-  static String CSV_REPORT_GENERATION_SUCCESS = ">>> Report successfully created <<<";
-  static String ASK_FOR_ANOTHER_SOUT_REPORT = "Select one of the following options:\n" +
-          "1 - Print another report to console\n" +
-          "2 - Return to report type menu\n" +
-          "3 - Return to main menu\n" +
-          "q - quit the program\n" +
-          "Type chosen option and accept it using 'enter' button: ";
+
   static String WELCOME_HEADER = "***** Welcome *****";
+  static String SELECT_DB = "Select which database you want to use:\n" +
+          "1 - MySQL local database\n" +
+          "2 - In-memory database\n" +
+          "q - quit the program\n" +
+          "Type chosen option and accept it using 'enter' button: ";
+  static String LOCAL_DB = "\nChosen database: Local MySQL\n";
+  static String IN_MEMORY_DB = "\nChosen database: In-memory\n";
+  static String SET_IN_MEMORY_DB = "Setting in-memory database >>>";
+  static String SUCCESS_SET_IN_MEMORY_DB = "<<< in-memory database successfully set";
+  static String SUCCESS_CREATE_TABLE = ">>> Table successfully created <<<";
   static String SELECT_ACTION_MAIN = "Select one of the following options:\n" +
           "1 - Add data from a file to the database\n" +
           "2 - Generate report\n" +
           "q - quit the program\n" +
           "Type chosen option and accept it using 'enter' button: ";
-  static String GOODBYE_FOOTER = "\n***** Goodbye *****";
   static String ASK_FOR_FILE_PATH =
           "Please type a path to the file you want to parse and save its content to the database.\n" +
                   "Press 'q' to return to main menu. Accept your choice using 'enter' button: ";
@@ -41,4 +38,18 @@ final class SoutMessages {
           "8 - average order value by client id\n" +
           "q - go back to previous menu\n" +
           "Type chosen option and accept it using 'enter' button: ";
+  static String ASK_FOR_ANOTHER_SOUT_REPORT = "Select one of the following options:\n" +
+          "1 - Print another report to console\n" +
+          "2 - Return to report type menu\n" +
+          "3 - Return to main menu\n" +
+          "q - quit the program\n" +
+          "Type chosen option and accept it using 'enter' button: ";
+  static String CSV_REPORT_GENERATION_SUCCESS = ">>> Report successfully created <<<";
+  static String ASK_FOR_ANOTHER_CSV_REPORT = "Select one of the following options:\n" +
+          "1 - Generate another .csv report\n" +
+          "2 - Return to report type menu\n" +
+          "3 - Return to main menu\n" +
+          "q - quit the program\n" +
+          "Type chosen option and accept it using 'enter' button: ";
+  static String GOODBYE_FOOTER = "\n***** Goodbye *****";
 }

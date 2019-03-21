@@ -26,10 +26,10 @@ public class ReportGeneratorTestSuite {
     dbHandler.insert(new Request("2", 1, "Dynia", 1, new BigDecimal(10)));
 
     //When
-    ResultSet rs1 = reportGenerator.generateReport("1");
-    ResultSet rs3 = reportGenerator.generateReport("3");
-    ResultSet rs5 = reportGenerator.generateReport("5");
-    ResultSet rs7 = reportGenerator.generateReport("7");
+    ResultSet rs1 = reportGenerator.generateReport("1", "local");
+    ResultSet rs3 = reportGenerator.generateReport("3", "local");
+    ResultSet rs5 = reportGenerator.generateReport("5", "local");
+    ResultSet rs7 = reportGenerator.generateReport("7", "local");
 
     //Then
     assertEquals(4, rs1.getInt(1));

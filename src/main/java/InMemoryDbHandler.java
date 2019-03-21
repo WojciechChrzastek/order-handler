@@ -5,6 +5,7 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ColumnListHandler;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
 
@@ -14,6 +15,10 @@ class InMemoryDbHandler {
 
   private String sqlQuery;
   private ResultSet rs = null;
+
+  Connection getConnection() {
+    return conn;
+  }
 
   void setDatabase() throws SQLException, ManagedProcessException {
     DBConfigurationBuilder config = DBConfigurationBuilder.newBuilder();
@@ -39,34 +44,41 @@ class InMemoryDbHandler {
     qr.update(conn, createTableQuery);
   }
 
-  void insert() throws SQLException {
+  void insert(Request request) throws SQLException {
 
-//    String clientId = request.getClientId();
-//    long requestId = request.getRequestId();
-//    String name = request.getName();
-//    int quantity = request.getQuantity();
-//    BigDecimal price = request.getPrice();
+    String clientId = request.getClientId();
+    long requestId = request.getRequestId();
+    String name = request.getName();
+    int quantity = request.getQuantity();
+    BigDecimal price = request.getPrice();
 
     PreparedStatement ps = conn.prepareStatement(
             "INSERT INTO REQUESTS" +
                     " (CLIENT_ID, REQUEST_ID, NAME, QUANTITY, PRICE)" +
-                    " VALUES (3, 25, 'blah', 341, 15.62)");
+                    " VALUES (?, ?, ?, ?, ?)");
 
-//    ps.setString(1, clientId);
-//    ps.setLong(2, requestId);
-//    ps.setString(3, name);
-//    ps.setInt(4, quantity);
-//    ps.setBigDecimal(5, price);
+    ps.setString(1, clientId);
+    ps.setLong(2, requestId);
+    ps.setString(3, name);
+    ps.setInt(4, quantity);
+    ps.setBigDecimal(5, price);
 
     ps.executeUpdate();
   }
+
+  void addRequestsListToDatabase(List<Request> requestsList) throws SQLException {
+    for (Request r : requestsList) {
+      // ==>>> walidacja
+      insert(r);
+    }
+  }
+
 
   void select() throws SQLException {
     List<String> results = qr.query(conn, "SELECT * FROM REQUESTS", new ColumnListHandler<>());
 
     System.out.println(results.size());
     System.out.println(results.get(0));
-
 
   }
 
@@ -80,5 +92,11 @@ class InMemoryDbHandler {
     rs = statement.executeQuery(sqlQuery);
     rs.beforeFirst();
     return rs;
+  }
+
+  void showTables() throws SQLException {
+    List<String> results = qr.query(conn, "SHOW TABLES", new ColumnListHandler<>());
+    System.out.println(results.size());
+    System.out.println(results.get(0));
   }
 }

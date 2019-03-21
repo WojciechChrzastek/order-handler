@@ -8,13 +8,22 @@ class ReportGenerator {
   private String sqlQuery;
   private Scanner scanner = new Scanner(System.in);
   private DbHandler dbHandler = DbHandler.getInstance();
+  private InMemoryDbHandler inMemoryDbHandler = new InMemoryDbHandler();
   private ResultSet rs = null;
   private int clientId;
 
   ReportGenerator() throws SQLException {
   }
 
-  ResultSet generateReport(String input) throws SQLException {
+  ResultSet generateReport(String input, String database) throws SQLException {
+
+
+//    Statement statement;
+//    if (database.equals("local")) {
+//      statement = dbHandler.getConnection().createStatement();
+//    } else {
+//      statement = inMemoryDbHandler.getConnection().createStatement();
+//    }
 
     switch (input) {
       case "1": {
@@ -34,7 +43,7 @@ class ReportGenerator {
         break;
       }
       case "5": {
-        rs = returnListOfAllOrders();
+        rs = returnListOfAllOrders(database);
         break;
       }
       case "6": {
@@ -96,9 +105,18 @@ class ReportGenerator {
     return rs;
   }
 
-  private ResultSet returnListOfAllOrders() throws SQLException {
+  private ResultSet returnListOfAllOrders(String database) throws SQLException {
+//    rs = inMemoryDbHandler.returnListOfAllOrders();
+    inMemoryDbHandler.showTables();
+    Statement statement;
     sqlQuery = "SELECT * FROM REQUESTS";
-    Statement statement = dbHandler.getConnection().createStatement();
+    if (database.equals("local")) {
+      statement = dbHandler.getConnection().createStatement();
+    } else {
+      statement = inMemoryDbHandler.getConnection().createStatement();
+    }
+//    Statement s = statement;
+//    Statement s = inMemoryDbHandler.getConnection().createStatement();
     rs = statement.executeQuery(sqlQuery);
     rs.beforeFirst();
     return rs;

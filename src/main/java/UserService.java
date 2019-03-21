@@ -9,13 +9,47 @@ class UserService {
   private String input;
   private Scanner scanner = new Scanner(System.in);
   private DbHandler dbHandler = DbHandler.getInstance();
+  private InMemoryDbHandler inMemoryDbHandler = new InMemoryDbHandler();
   private ReportGenerator reportGenerator = new ReportGenerator();
   private ReportHandler reportHandler = new ReportHandler();
+  private String database;
 
-  void run() throws SQLException, IOException {
+  void run() throws Exception {
     System.out.println(SoutMessages.WELCOME_HEADER);
-    dbHandler.createTable();
-    showMainMenu();
+    showDatabaseSelector();
+  }
+
+  void exitApplication() throws SQLException {
+    System.out.println(SoutMessages.GOODBYE_FOOTER);
+    dbHandler.deleteTable();
+    inMemoryDbHandler.closeDb();
+    System.exit(0);
+  }
+
+  private void showDatabaseSelector() throws Exception {
+    System.out.println();
+    do {
+      System.out.print(SoutMessages.SELECT_DB);
+      input = scanner.nextLine();
+    } while (!input.equals("1") && !input.equals("2") && !input.equals("q"));
+    if (input.equals("1")) {
+      database = "local";
+      System.out.println(SoutMessages.LOCAL_DB);
+      dbHandler.createTable();
+      System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
+      showMainMenu();
+    } else if (input.equals("2")) {
+      database = "in-memory";
+      System.out.print(SoutMessages.IN_MEMORY_DB);
+      System.out.println(SoutMessages.SET_IN_MEMORY_DB);
+      inMemoryDbHandler.setDatabase();
+      System.out.println(SoutMessages.SUCCESS_SET_IN_MEMORY_DB);
+      inMemoryDbHandler.createTable();
+      System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
+      showMainMenu();
+    } else {
+      exitApplication();
+    }
   }
 
   private void showMainMenu() throws SQLException, IOException {
@@ -29,8 +63,7 @@ class UserService {
     } else if (input.equals("2")) {
       showGenerateReportMenu();
     } else {
-      System.out.println(SoutMessages.GOODBYE_FOOTER);
-      System.exit(0);
+      exitApplication();
     }
   }
 
@@ -54,7 +87,11 @@ class UserService {
 
   private void handleInput(List requestsList) throws SQLException, IOException {
     System.out.println(SoutMessages.PARSE_SUCCESS);
-    dbHandler.addRequestsListToDatabase(requestsList);
+    if (database.equals("local")) {
+      dbHandler.addRequestsListToDatabase(requestsList);
+    } else {
+      inMemoryDbHandler.addRequestsListToDatabase(requestsList);
+    }
     System.out.println(SoutMessages.ADD_FILE_DATA_SUCCESS);
     showMainMenu();
   }
@@ -74,7 +111,7 @@ class UserService {
     }
   }
 
-  private void selectReport() {
+  private void selectReport() throws SQLException {
     System.out.println();
     do {
       System.out.print(SoutMessages.SELECT_REPORT);
@@ -87,7 +124,8 @@ class UserService {
   private void showSoutReportMenu() throws SQLException, IOException {
     selectReport();
     if (!input.equals("q")) {
-      reportHandler.printReportToConsole(reportGenerator.generateReport(input));
+      inMemoryDbHandler.showTables();
+      reportHandler.printReportToConsole(reportGenerator.generateReport(input, database));
       do {
         System.out.println();
         System.out.print(SoutMessages.ASK_FOR_ANOTHER_SOUT_REPORT);
@@ -104,8 +142,7 @@ class UserService {
           showMainMenu();
           break;
         default:
-          System.out.println(SoutMessages.GOODBYE_FOOTER);
-          System.exit(0);
+          exitApplication();
       }
     } else {
       showGenerateReportMenu();
@@ -115,7 +152,7 @@ class UserService {
   private void showCsvReportMenu() throws SQLException, IOException {
     selectReport();
     if (!input.equals("q")) {
-      reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input), input);
+      reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, database), input);
       System.out.println(SoutMessages.CSV_REPORT_GENERATION_SUCCESS);
       do {
         System.out.println();
@@ -133,8 +170,7 @@ class UserService {
           showMainMenu();
           break;
         default:
-          System.out.println(SoutMessages.GOODBYE_FOOTER);
-          System.exit(0);
+          exitApplication();
       }
     } else {
       showGenerateReportMenu();
