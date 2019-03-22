@@ -1,3 +1,5 @@
+import ch.vorburger.exec.ManagedProcessException;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,7 +11,7 @@ class UserService {
   private String input;
   private Scanner scanner = new Scanner(System.in);
   private DbHandler dbHandler = DbHandler.getInstance();
-  private InMemoryDbHandler inMemoryDbHandler = new InMemoryDbHandler();
+  private InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
   private ReportGenerator reportGenerator = new ReportGenerator();
   private ReportHandler reportHandler = new ReportHandler();
   private String database;
@@ -34,16 +36,13 @@ class UserService {
     } while (!input.equals("1") && !input.equals("2") && !input.equals("q"));
     if (input.equals("1")) {
       database = "local";
-      System.out.println(SoutMessages.LOCAL_DB);
+      System.out.print(SoutMessages.LOCAL_DB);
       dbHandler.createTable();
       System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
       showMainMenu();
     } else if (input.equals("2")) {
       database = "in-memory";
       System.out.print(SoutMessages.IN_MEMORY_DB);
-      System.out.println(SoutMessages.SET_IN_MEMORY_DB);
-      inMemoryDbHandler.setDatabase();
-      System.out.println(SoutMessages.SUCCESS_SET_IN_MEMORY_DB);
       inMemoryDbHandler.createTable();
       System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
       showMainMenu();
@@ -124,7 +123,6 @@ class UserService {
   private void showSoutReportMenu() throws SQLException, IOException {
     selectReport();
     if (!input.equals("q")) {
-      inMemoryDbHandler.showTables();
       reportHandler.printReportToConsole(reportGenerator.generateReport(input, database));
       do {
         System.out.println();
@@ -177,6 +175,6 @@ class UserService {
     }
   }
 
-  UserService() throws SQLException {
+  UserService() throws SQLException, ManagedProcessException {
   }
 }
