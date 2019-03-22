@@ -3,24 +3,20 @@ import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.ColumnListHandler;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 class InMemoryDbHandler {
   private Connection conn;
   private QueryRunner qr = new QueryRunner();
+  private static InMemoryDbHandler inMemoryDbHandlerInstance;
 
-  private String sqlQuery;
-  private ResultSet rs = null;
-
-  Connection getConnection() {
-    return conn;
-  }
-
-  void setDatabase() throws SQLException, ManagedProcessException {
+  private InMemoryDbHandler() throws SQLException, ManagedProcessException {
     DBConfigurationBuilder config = DBConfigurationBuilder.newBuilder();
     config.setPort(0);
     config.addArg("--default-time-zone=+0:00");
@@ -29,6 +25,17 @@ class InMemoryDbHandler {
     String dbName = "sampleInMemoryDatabase";
     db.createDB(dbName);
     conn = DriverManager.getConnection(config.getURL(dbName), "root", "");
+  }
+
+  static InMemoryDbHandler getInstance() throws SQLException, ManagedProcessException {
+    if (inMemoryDbHandlerInstance == null) {
+      inMemoryDbHandlerInstance = new InMemoryDbHandler();
+    }
+    return inMemoryDbHandlerInstance;
+  }
+
+  Connection getConnection() {
+    return conn;
   }
 
   void createTable() throws Exception {
@@ -73,30 +80,21 @@ class InMemoryDbHandler {
     }
   }
 
-
-  void select() throws SQLException {
-    List<String> results = qr.query(conn, "SELECT * FROM REQUESTS", new ColumnListHandler<>());
-
-    System.out.println(results.size());
-    System.out.println(results.get(0));
-
-  }
-
   void closeDb() {
     DbUtils.closeQuietly(conn);
   }
 
-  ResultSet returnListOfAllOrders() throws SQLException {
-    sqlQuery = "SELECT * FROM REQUESTS";
-    Statement statement = conn.createStatement();
-    rs = statement.executeQuery(sqlQuery);
-    rs.beforeFirst();
-    return rs;
-  }
+//  void select() throws SQLException {
+//    List<String> results = qr.query(conn, "SELECT * FROM REQUESTS", new ColumnListHandler<>());
+//    System.out.println(results.size());
+//    System.out.println(results.get(0));
+//  }
 
-  void showTables() throws SQLException {
-    List<String> results = qr.query(conn, "SHOW TABLES", new ColumnListHandler<>());
-    System.out.println(results.size());
-    System.out.println(results.get(0));
-  }
+//  ResultSet returnListOfAllOrders() throws SQLException {
+//    String sqlQuery = "SELECT * FROM REQUESTS";
+//    Statement statement = conn.createStatement();
+//    ResultSet rs = statement.executeQuery(sqlQuery);
+//    rs.beforeFirst();
+//    return rs;
+//  }
 }
