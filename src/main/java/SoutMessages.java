@@ -1,16 +1,14 @@
 final class SoutMessages {
 
   static String WELCOME_HEADER = "***** Welcome *****";
-  static String SELECT_DB = "Select which database you want to use:\n" +
+  static String SELECT_DB = "Select which database type you want to use:\n" +
           "1 - MySQL local database\n" +
           "2 - In-memory database\n" +
           "q - quit the program\n" +
           "Type chosen option and accept it using 'enter' button: ";
   static String LOCAL_DB = "\nChosen database: Local MySQL\n";
   static String IN_MEMORY_DB = "\nChosen database: In-memory\n";
-  static String SET_IN_MEMORY_DB = "Setting in-memory database >>>";
-  static String SUCCESS_SET_IN_MEMORY_DB = "<<< in-memory database successfully set";
-  static String SUCCESS_CREATE_TABLE = ">>> Table successfully created <<<";
+  static String SUCCESS_CREATE_TABLE = ">>> Table REQUESTS in chosen databes type successfully created <<<";
   static String SELECT_ACTION_MAIN = "Select one of the following options:\n" +
           "1 - Add data from a file to the database\n" +
           "2 - Generate report\n" +
