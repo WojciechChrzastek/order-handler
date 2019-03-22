@@ -1,3 +1,5 @@
+import ch.vorburger.exec.ManagedProcessException;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,22 +10,14 @@ class ReportGenerator {
   private String sqlQuery;
   private Scanner scanner = new Scanner(System.in);
   private DbHandler dbHandler = DbHandler.getInstance();
-  private InMemoryDbHandler inMemoryDbHandler = new InMemoryDbHandler();
+  private InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
   private ResultSet rs = null;
   private int clientId;
 
-  ReportGenerator() throws SQLException {
+  ReportGenerator() throws SQLException, ManagedProcessException {
   }
 
   ResultSet generateReport(String input, String database) throws SQLException {
-
-
-//    Statement statement;
-//    if (database.equals("local")) {
-//      statement = dbHandler.getConnection().createStatement();
-//    } else {
-//      statement = inMemoryDbHandler.getConnection().createStatement();
-//    }
 
     switch (input) {
       case "1": {
@@ -106,8 +100,6 @@ class ReportGenerator {
   }
 
   private ResultSet returnListOfAllOrders(String database) throws SQLException {
-//    rs = inMemoryDbHandler.returnListOfAllOrders();
-    inMemoryDbHandler.showTables();
     Statement statement;
     sqlQuery = "SELECT * FROM REQUESTS";
     if (database.equals("local")) {
@@ -115,8 +107,6 @@ class ReportGenerator {
     } else {
       statement = inMemoryDbHandler.getConnection().createStatement();
     }
-//    Statement s = statement;
-//    Statement s = inMemoryDbHandler.getConnection().createStatement();
     rs = statement.executeQuery(sqlQuery);
     rs.beforeFirst();
     return rs;
