@@ -46,7 +46,7 @@ public class ReportHandlerTestSuite {
 
 
     //When
-    reportHandler.printReportToConsole(reportGenerator.generateReport(input, "local"));
+    reportHandler.printReportToConsole(reportGenerator.generateReport(input, dbHandler.getConnection()));
 
     //Then
     assertEquals(s, systemOutRule.getLog());
@@ -61,7 +61,7 @@ public class ReportHandlerTestSuite {
     ParserOpenCsv parserOpenCsv = new ParserOpenCsv();
 
     //When
-    reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, "local"), input);
+    reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, dbHandler.getConnection()), input);
 
     //Then
     List list1 = parserOpenCsv.parseTestFiles("test_TOTAL_ORDERS_NUMBER.csv");
