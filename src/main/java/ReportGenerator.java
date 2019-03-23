@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 class ReportGenerator {
-  private String sqlQuery;
   private Scanner scanner = new Scanner(System.in);
   private ResultSet rs = null;
   private int clientId;
@@ -53,8 +52,7 @@ class ReportGenerator {
   }
 
   private ResultSet returnTotalOrdersNumber(Connection conn) throws SQLException {
-    sqlQuery = "SELECT COUNT(*) AS TOTAL_ORDERS_NUMBER FROM REQUESTS";
-    rs = conn.createStatement().executeQuery(sqlQuery);
+    rs = conn.createStatement().executeQuery(SqlQueries.RETURN_TOTAL_ORDERS_NUMBER);
     rs.next();
     return rs;
   }
@@ -62,23 +60,16 @@ class ReportGenerator {
   private ResultSet returnTotalOrdersNumberOfGivenClientId(Connection conn) throws SQLException {
     System.out.println(SoutMessages.GIVE_CLIENT_ID);
     clientId = scanner.nextInt();
-    sqlQuery = "SELECT COUNT(*) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
-    PreparedStatement ps = conn.prepareStatement(sqlQuery);
+    PreparedStatement ps = conn.prepareStatement(SqlQueries.RETURN_TOTAL_ORDERS_NUMBER_OF_GIVEN_CLIENT_ID);
     ps.setString(1, "TOTAL_ORDERS_NUMBER_FOR_CLIENT_ID_NO_" + clientId);
     ps.setInt(2, clientId);
-
     rs = ps.executeQuery();
     rs.next();
     return rs;
   }
 
   private ResultSet returnTotalValueOfOrders(Connection conn) throws SQLException {
-    sqlQuery = "SELECT SUM(PRICE*QUANTITY) AS TOTAL_VALUE_OF_ORDERS FROM REQUESTS";
-
-//    rs = conn.createStatement().executeQuery(sqlQuery);
-
-    PreparedStatement ps = conn.prepareStatement(sqlQuery);
-
+    PreparedStatement ps = conn.prepareStatement(SqlQueries.RETURN_TOTAL_VALUE_OF_ORDERS);
     rs = ps.executeQuery();
     rs.next();
     return rs;
@@ -87,19 +78,16 @@ class ReportGenerator {
   private ResultSet returnTotalValueOfOrdersOfGivenClientId(Connection conn) throws SQLException {
     System.out.println(SoutMessages.GIVE_CLIENT_ID);
     clientId = scanner.nextInt();
-    sqlQuery = "SELECT SUM(PRICE * QUANTITY) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
-    PreparedStatement ps = conn.prepareStatement(sqlQuery);
+    PreparedStatement ps = conn.prepareStatement(SqlQueries.RETURN_TOTAL_VALUE_OF_ORDERS_OF_GIVEN_CLIENT_ID);
     ps.setString(1, "TOTAL_VALUE_OF_ORDERS_FOR_CLIENT_ID_NO_" + clientId);
     ps.setInt(2, clientId);
-
     rs = ps.executeQuery();
     rs.next();
     return rs;
   }
 
   private ResultSet returnListOfAllOrders(Connection conn) throws SQLException {
-    sqlQuery = "SELECT * FROM REQUESTS";
-    rs = conn.createStatement().executeQuery(sqlQuery);
+    rs = conn.createStatement().executeQuery(SqlQueries.RETURN_LIST_OF_ALL_ORDERS);
     rs.beforeFirst();
     return rs;
   }
@@ -107,8 +95,7 @@ class ReportGenerator {
   private ResultSet returnListOfAllOrdersOfGivenClientId(Connection conn) throws SQLException {
     System.out.println(SoutMessages.GIVE_CLIENT_ID);
     clientId = scanner.nextInt();
-    sqlQuery = "SELECT * FROM REQUESTS WHERE CLIENT_ID = ?";
-    PreparedStatement ps = conn.prepareStatement(sqlQuery);
+    PreparedStatement ps = conn.prepareStatement(SqlQueries.RETURN_LIST_OF_ALL_ORDERS_OF_GIVEN_CLIENT_ID);
     ps.setInt(1, clientId);
     rs = ps.executeQuery();
     rs.beforeFirst();
@@ -116,8 +103,7 @@ class ReportGenerator {
   }
 
   private ResultSet returnAverageOrderValue(Connection conn) throws SQLException {
-    sqlQuery = "SELECT AVG(QUANTITY * PRICE) AS AVERAGE_ORDER_VALUE FROM REQUESTS";
-    rs = conn.createStatement().executeQuery(sqlQuery);
+    rs = conn.createStatement().executeQuery(SqlQueries.RETURN_AVERAGE_ORDER_VALUE);
     rs.next();
     return rs;
   }
@@ -125,11 +111,9 @@ class ReportGenerator {
   private ResultSet returnAverageOrderValueOfGivenClientId(Connection conn) throws SQLException {
     System.out.println(SoutMessages.GIVE_CLIENT_ID);
     clientId = scanner.nextInt();
-    sqlQuery = "SELECT AVG(QUANTITY * PRICE) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
-    PreparedStatement ps = conn.prepareStatement(sqlQuery);
+    PreparedStatement ps = conn.prepareStatement(SqlQueries.RETURN_AVERAGE_ORDER_VALUE_OF_GIVEN_CLIENT_ID);
     ps.setString(1, "AVERAGE_ORDER_VALUE_FOR_CLIENT_ID_NO_" + clientId);
     ps.setInt(2, clientId);
-
     rs = ps.executeQuery();
     rs.next();
     return rs;
