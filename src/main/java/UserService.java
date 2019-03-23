@@ -1,6 +1,7 @@
 import ch.vorburger.exec.ManagedProcessException;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
@@ -14,14 +15,14 @@ class UserService {
   private InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
   private ReportGenerator reportGenerator = new ReportGenerator();
   private ReportHandler reportHandler = new ReportHandler();
-  private String database;
+  private Connection conn;
 
   void run() throws Exception {
     System.out.println(SoutMessages.WELCOME_HEADER);
     showDatabaseSelector();
   }
 
-  void exitApplication() throws SQLException {
+  private void exitApplication() throws SQLException {
     System.out.println(SoutMessages.GOODBYE_FOOTER);
     dbHandler.deleteTable();
     inMemoryDbHandler.closeDb();
@@ -35,13 +36,13 @@ class UserService {
       input = scanner.nextLine();
     } while (!input.equals("1") && !input.equals("2") && !input.equals("q"));
     if (input.equals("1")) {
-      database = "local";
+      conn = dbHandler.getConnection();
       System.out.print(SoutMessages.LOCAL_DB);
       dbHandler.createTable();
       System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
       showMainMenu();
     } else if (input.equals("2")) {
-      database = "in-memory";
+      conn = inMemoryDbHandler.getConnection();
       System.out.print(SoutMessages.IN_MEMORY_DB);
       inMemoryDbHandler.createTable();
       System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
@@ -86,7 +87,7 @@ class UserService {
 
   private void handleInput(List requestsList) throws SQLException, IOException {
     System.out.println(SoutMessages.PARSE_SUCCESS);
-    if (database.equals("local")) {
+    if (conn == dbHandler.getConnection()) {
       dbHandler.addRequestsListToDatabase(requestsList);
     } else {
       inMemoryDbHandler.addRequestsListToDatabase(requestsList);
@@ -110,7 +111,7 @@ class UserService {
     }
   }
 
-  private void selectReport() throws SQLException {
+  private void selectReport() {
     System.out.println();
     do {
       System.out.print(SoutMessages.SELECT_REPORT);
@@ -123,7 +124,7 @@ class UserService {
   private void showSoutReportMenu() throws SQLException, IOException {
     selectReport();
     if (!input.equals("q")) {
-      reportHandler.printReportToConsole(reportGenerator.generateReport(input, database));
+      reportHandler.printReportToConsole(reportGenerator.generateReport(input, conn));
       do {
         System.out.println();
         System.out.print(SoutMessages.ASK_FOR_ANOTHER_SOUT_REPORT);
@@ -150,7 +151,7 @@ class UserService {
   private void showCsvReportMenu() throws SQLException, IOException {
     selectReport();
     if (!input.equals("q")) {
-      reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, database), input);
+      reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, conn), input);
       System.out.println(SoutMessages.CSV_REPORT_GENERATION_SUCCESS);
       do {
         System.out.println();
