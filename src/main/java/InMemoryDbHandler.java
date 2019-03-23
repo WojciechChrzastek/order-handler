@@ -5,10 +5,7 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 class InMemoryDbHandler {
@@ -80,21 +77,16 @@ class InMemoryDbHandler {
     }
   }
 
+  void deleteTable() throws SQLException, ManagedProcessException {
+    InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
+    Statement statement = inMemoryDbHandler.getConnection().createStatement();
+
+    String sqlQuery = "DROP TABLE IF EXISTS REQUESTS";
+    statement.executeUpdate(sqlQuery);
+  }
+
   void closeDb() {
     DbUtils.closeQuietly(conn);
   }
 
-//  void select() throws SQLException {
-//    List<String> results = qr.query(conn, "SELECT * FROM REQUESTS", new ColumnListHandler<>());
-//    System.out.println(results.size());
-//    System.out.println(results.get(0));
-//  }
-
-//  ResultSet returnListOfAllOrders() throws SQLException {
-//    String sqlQuery = "SELECT * FROM REQUESTS";
-//    Statement statement = conn.createStatement();
-//    ResultSet rs = statement.executeQuery(sqlQuery);
-//    rs.beforeFirst();
-//    return rs;
-//  }
 }
