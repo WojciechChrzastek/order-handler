@@ -48,7 +48,8 @@ class InMemoryDbHandler {
     qr.update(conn, createTableQuery);
   }
 
-  void insert(Request request) throws SQLException {
+  static void insert(Request request) throws SQLException, ManagedProcessException {
+    InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
 
     String clientId = request.getClientId();
     long requestId = request.getRequestId();
@@ -56,7 +57,7 @@ class InMemoryDbHandler {
     int quantity = request.getQuantity();
     BigDecimal price = request.getPrice();
 
-    PreparedStatement ps = conn.prepareStatement(
+    PreparedStatement ps = inMemoryDbHandler.getConnection().prepareStatement(
             "INSERT INTO REQUESTS" +
                     " (CLIENT_ID, REQUEST_ID, NAME, QUANTITY, PRICE)" +
                     " VALUES (?, ?, ?, ?, ?)");
@@ -70,7 +71,7 @@ class InMemoryDbHandler {
     ps.executeUpdate();
   }
 
-  void addRequestsListToDatabase(List<Request> requestsList) throws SQLException {
+  void addRequestsListToDatabase(List<Request> requestsList) throws SQLException, ManagedProcessException {
     for (Request r : requestsList) {
       // ==>>> walidacja
       insert(r);
