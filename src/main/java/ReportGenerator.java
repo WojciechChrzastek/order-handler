@@ -60,12 +60,13 @@ class ReportGenerator {
   }
 
   private ResultSet returnTotalOrdersNumberOfGivenClientId(Connection conn) throws SQLException {
-    System.out.print("Give Client Id: ");
+    System.out.println(SoutMessages.GIVE_CLIENT_ID);
     clientId = scanner.nextInt();
     sqlQuery = "SELECT COUNT(*) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
     PreparedStatement ps = conn.prepareStatement(sqlQuery);
     ps.setString(1, "TOTAL_ORDERS_NUMBER_FOR_CLIENT_ID_NO_" + clientId);
     ps.setInt(2, clientId);
+
     rs = ps.executeQuery();
     rs.next();
     return rs;
@@ -73,18 +74,24 @@ class ReportGenerator {
 
   private ResultSet returnTotalValueOfOrders(Connection conn) throws SQLException {
     sqlQuery = "SELECT SUM(PRICE*QUANTITY) AS TOTAL_VALUE_OF_ORDERS FROM REQUESTS";
-    rs = conn.createStatement().executeQuery(sqlQuery);
+
+//    rs = conn.createStatement().executeQuery(sqlQuery);
+
+    PreparedStatement ps = conn.prepareStatement(sqlQuery);
+
+    rs = ps.executeQuery();
     rs.next();
     return rs;
   }
 
   private ResultSet returnTotalValueOfOrdersOfGivenClientId(Connection conn) throws SQLException {
-    System.out.print("Give Client Id: ");
+    System.out.println(SoutMessages.GIVE_CLIENT_ID);
     clientId = scanner.nextInt();
     sqlQuery = "SELECT SUM(PRICE * QUANTITY) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
     PreparedStatement ps = conn.prepareStatement(sqlQuery);
     ps.setString(1, "TOTAL_VALUE_OF_ORDERS_FOR_CLIENT_ID_NO_" + clientId);
     ps.setInt(2, clientId);
+
     rs = ps.executeQuery();
     rs.next();
     return rs;
@@ -98,7 +105,7 @@ class ReportGenerator {
   }
 
   private ResultSet returnListOfAllOrdersOfGivenClientId(Connection conn) throws SQLException {
-    System.out.print("Give Client Id: ");
+    System.out.println(SoutMessages.GIVE_CLIENT_ID);
     clientId = scanner.nextInt();
     sqlQuery = "SELECT * FROM REQUESTS WHERE CLIENT_ID = ?";
     PreparedStatement ps = conn.prepareStatement(sqlQuery);
@@ -116,12 +123,13 @@ class ReportGenerator {
   }
 
   private ResultSet returnAverageOrderValueOfGivenClientId(Connection conn) throws SQLException {
-    System.out.print("Give Client Id: ");
+    System.out.println(SoutMessages.GIVE_CLIENT_ID);
     clientId = scanner.nextInt();
     sqlQuery = "SELECT AVG(QUANTITY * PRICE) AS ? FROM REQUESTS WHERE CLIENT_ID = ?";
     PreparedStatement ps = conn.prepareStatement(sqlQuery);
     ps.setString(1, "AVERAGE_ORDER_VALUE_FOR_CLIENT_ID_NO_" + clientId);
     ps.setInt(2, clientId);
+
     rs = ps.executeQuery();
     rs.next();
     return rs;
