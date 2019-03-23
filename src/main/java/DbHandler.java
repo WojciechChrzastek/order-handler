@@ -30,25 +30,13 @@ class DbHandler {
   void createTable() throws SQLException {
     DbHandler dbHandler = DbHandler.getInstance();
     Statement statement = dbHandler.getConnection().createStatement();
-
-    String sqlQuery = "CREATE TABLE IF NOT EXISTS REQUESTS " +
-            "(" +
-            "ID SERIAL PRIMARY KEY, " +
-            "CLIENT_ID CHAR(6), " +
-            "REQUEST_ID BIGINT UNSIGNED, " +
-            "NAME VARCHAR(255) CHARSET utf8, " +
-            "QUANTITY INT UNSIGNED, " +
-            "PRICE DECIMAL (19,2) UNSIGNED " +
-            ")";
-    statement.executeUpdate(sqlQuery);
+    statement.executeUpdate(SqlQueries.CREATE_TABLE);
   }
 
   void deleteTable() throws SQLException {
     DbHandler dbHandler = DbHandler.getInstance();
     Statement statement = dbHandler.getConnection().createStatement();
-
-    String sqlQuery = "DROP TABLE IF EXISTS REQUESTS";
-    statement.executeUpdate(sqlQuery);
+    statement.executeUpdate(SqlQueries.DELETE_TABLE);
   }
 
   void insert(Request request) throws SQLException {
@@ -60,10 +48,7 @@ class DbHandler {
     int quantity = request.getQuantity();
     BigDecimal price = request.getPrice();
 
-    PreparedStatement ps = dbHandler.getConnection().prepareStatement(
-            "INSERT INTO REQUESTS" +
-                    " (CLIENT_ID, REQUEST_ID, NAME, QUANTITY, PRICE)" +
-                    " VALUES (?, ?, ?, ?, ?)");
+    PreparedStatement ps = dbHandler.getConnection().prepareStatement(SqlQueries.INSERT);
 
     ps.setString(1, clientId);
     ps.setLong(2, requestId);

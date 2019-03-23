@@ -36,16 +36,7 @@ class InMemoryDbHandler {
   }
 
   void createTable() throws Exception {
-    String createTableQuery = "CREATE TABLE IF NOT EXISTS REQUESTS " +
-            "(" +
-            "ID SERIAL PRIMARY KEY, " +
-            "CLIENT_ID CHAR(6), " +
-            "REQUEST_ID BIGINT UNSIGNED, " +
-            "NAME VARCHAR(255) CHARSET utf8, " +
-            "QUANTITY INT UNSIGNED, " +
-            "PRICE DECIMAL (19,2) UNSIGNED " +
-            ")";
-    qr.update(conn, createTableQuery);
+    qr.update(conn, SqlQueries.CREATE_TABLE);
   }
 
   static void insert(Request request) throws SQLException, ManagedProcessException {
@@ -57,10 +48,7 @@ class InMemoryDbHandler {
     int quantity = request.getQuantity();
     BigDecimal price = request.getPrice();
 
-    PreparedStatement ps = inMemoryDbHandler.getConnection().prepareStatement(
-            "INSERT INTO REQUESTS" +
-                    " (CLIENT_ID, REQUEST_ID, NAME, QUANTITY, PRICE)" +
-                    " VALUES (?, ?, ?, ?, ?)");
+    PreparedStatement ps = inMemoryDbHandler.getConnection().prepareStatement(SqlQueries.INSERT);
 
     ps.setString(1, clientId);
     ps.setLong(2, requestId);
@@ -81,9 +69,7 @@ class InMemoryDbHandler {
   void deleteTable() throws SQLException, ManagedProcessException {
     InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
     Statement statement = inMemoryDbHandler.getConnection().createStatement();
-
-    String sqlQuery = "DROP TABLE IF EXISTS REQUESTS";
-    statement.executeUpdate(sqlQuery);
+    statement.executeUpdate(SqlQueries.DELETE_TABLE);
   }
 
   void closeDb() {
