@@ -44,8 +44,9 @@ public class ReportHandlerTestSuite {
     String s = separator + "TOTAL_ORDERS_NUMBER" + separator + "4" + separator;
     String input = "1";
 
+
     //When
-    reportHandler.printReportToConsole(reportGenerator.generateReport(input));
+    reportHandler.printReportToConsole(reportGenerator.generateReport(input, dbHandler.getConnection()));
 
     //Then
     assertEquals(s, systemOutRule.getLog());
@@ -60,7 +61,7 @@ public class ReportHandlerTestSuite {
     ParserOpenCsv parserOpenCsv = new ParserOpenCsv();
 
     //When
-    reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input), input);
+    reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, dbHandler.getConnection()), input);
 
     //Then
     List list1 = parserOpenCsv.parseTestFiles("test_TOTAL_ORDERS_NUMBER.csv");
