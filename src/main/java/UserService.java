@@ -52,7 +52,7 @@ class UserService {
     }
   }
 
-  private void showMainMenu() throws SQLException, IOException {
+  private void showMainMenu() throws SQLException, IOException, ManagedProcessException {
     System.out.println();
     do {
       System.out.print(SoutMessages.SELECT_ACTION_MAIN);
@@ -67,7 +67,7 @@ class UserService {
     }
   }
 
-  private void showAddFileMenu() throws SQLException, IOException {
+  private void showAddFileMenu() throws SQLException, IOException, ManagedProcessException {
     System.out.println();
     do {
       System.out.print(SoutMessages.ASK_FOR_FILE_PATH);
@@ -85,7 +85,7 @@ class UserService {
     } while (!input.contains(".csv") && !input.contains(".xml") && !input.equals("q"));
   }
 
-  private void handleInput(List requestsList) throws SQLException, IOException {
+  private void handleInput(List requestsList) throws SQLException, IOException, ManagedProcessException {
     System.out.println(SoutMessages.PARSE_SUCCESS);
     if (conn == dbHandler.getConnection()) {
       dbHandler.addRequestsListToDatabase(requestsList);
@@ -96,7 +96,7 @@ class UserService {
     showMainMenu();
   }
 
-  private void showGenerateReportMenu() throws SQLException, IOException {
+  private void showGenerateReportMenu() throws SQLException, IOException, ManagedProcessException {
     System.out.println();
     do {
       System.out.print(SoutMessages.SELECT_REPORT_TYPE);
@@ -121,7 +121,7 @@ class UserService {
             !input.equals("7") && !input.equals("8") && !input.equals("q"));
   }
 
-  private void showSoutReportMenu() throws SQLException, IOException {
+  private void showSoutReportMenu() throws SQLException, IOException, ManagedProcessException {
     selectReport();
     if (!input.equals("q")) {
       reportHandler.printReportToConsole(reportGenerator.generateReport(input, conn));
@@ -148,7 +148,7 @@ class UserService {
     }
   }
 
-  private void showCsvReportMenu() throws SQLException, IOException {
+  private void showCsvReportMenu() throws SQLException, IOException, ManagedProcessException {
     selectReport();
     if (!input.equals("q")) {
       reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, conn), input);
