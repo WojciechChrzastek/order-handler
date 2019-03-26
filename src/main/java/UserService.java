@@ -119,6 +119,9 @@ class UserService {
     } while (!input.equals("1") && !input.equals("2") && !input.equals("3") &&
             !input.equals("4") && !input.equals("5") && !input.equals("6") &&
             !input.equals("7") && !input.equals("8") && !input.equals("q"));
+    //if input.equals(tam gdzie jest zapytanie o clientId)
+    //->zapytaj o clientId
+    // zapisz client id i przejdź dalej?
   }
 
   private void showSoutReportMenu() throws SQLException, IOException, ManagedProcessException {
