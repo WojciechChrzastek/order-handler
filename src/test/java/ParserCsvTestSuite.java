@@ -16,8 +16,8 @@ public class ParserCsvTestSuite {
     ParserCsv parserCsv2 = new ParserCsv();
 
     //When
-    List<Request> requestsList = parserCsv.parse("test.csv");
-    List<Request> requestsListMissing = parserCsv2.parse("test_missing.csv");
+    List<Request> requestsList = parserCsv.parse("out/test/resources/test.csv");
+    List<Request> requestsListMissing = parserCsv2.parse("out/test/resources/test_missing.csv");
 
     //Then
     assertEquals(4, requestsList.size());
@@ -39,7 +39,7 @@ public class ParserCsvTestSuite {
   public void testGetRequestsList() {
     //Given
     ParserCsv parserCsv = new ParserCsv();
-    List<Request> requestsList = parserCsv.parse("test.csv");
+    List<Request> requestsList = parserCsv.parse("out/test/resources/test.csv");
 
     //When
     List<Request> requestList2 = parserCsv.getRequestsList();

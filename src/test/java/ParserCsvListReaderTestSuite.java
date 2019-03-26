@@ -15,7 +15,7 @@ public class ParserCsvListReaderTestSuite {
     //Given
 
     //When
-    List<Request> requestsList = parserCsvListReader.parse("test.csv");
+    List<Request> requestsList = parserCsvListReader.parse("out/test/resources/test.csv");
 
     //Then
     assertEquals(4, requestsList.size());
