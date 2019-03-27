@@ -11,7 +11,7 @@ class UserService {
   private ParserXml parserXml = new ParserXml();
   private String input;
   private Scanner scanner = new Scanner(System.in);
-//  private DbHandler dbHandler = DbHandler.getInstance();
+  private DbHandler dbHandler = DbHandler.getInstance();
   private InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
   private ReportGenerator reportGenerator = new ReportGenerator();
   private ReportHandler reportHandler = new ReportHandler();
@@ -24,7 +24,7 @@ class UserService {
 
   private void exitApplication() throws SQLException {
     System.out.println(SoutMessages.GOODBYE_FOOTER);
-//    dbHandler.deleteTable();
+    dbHandler.deleteTable();
     inMemoryDbHandler.closeDb();
     System.exit(0);
   }
@@ -36,11 +36,11 @@ class UserService {
       input = scanner.nextLine();
     } while (!input.equals("1") && !input.equals("2") && !input.equals("q"));
     if (input.equals("1")) {
-//      conn = dbHandler.getConnection();
-//      System.out.print(SoutMessages.LOCAL_DB);
-//      dbHandler.createTable();
-//      System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
-//      showMainMenu();
+      conn = dbHandler.getConnection();
+      System.out.print(SoutMessages.LOCAL_DB);
+      dbHandler.createTable();
+      System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
+      showMainMenu();
     } else if (input.equals("2")) {
       conn = inMemoryDbHandler.getConnection();
       System.out.print(SoutMessages.IN_MEMORY_DB);
@@ -87,11 +87,11 @@ class UserService {
 
   private void handleInput(List requestsList) throws SQLException, IOException, ManagedProcessException {
     System.out.println(SoutMessages.PARSE_SUCCESS);
-//    if (conn == dbHandler.getConnection()) {
-//      dbHandler.addRequestsListToDatabase(requestsList);
-//    } else {
+    if (conn == dbHandler.getConnection()) {
+      dbHandler.addRequestsListToDatabase(requestsList);
+    } else {
       inMemoryDbHandler.addRequestsListToDatabase(requestsList);
-//    }
+    }
     System.out.println(SoutMessages.ADD_FILE_DATA_SUCCESS);
     showMainMenu();
   }
