@@ -6,20 +6,9 @@ version '0.0.1'
 mainClassName = 'Main'
 sourceCompatibility = 1.8
 
-task buildZip(type: Zip) {
-    from compileJava
-    from processResources
-    into('lib') {
-        from configurations.runtime
-    }
+run{
+    standardInput = System.in
 }
-
-jar {
-    baseName = 'order-handler'
-    version = '0.0.1'
-}
-
-build.dependsOn buildZip
 
 repositories {
     mavenCentral()
