@@ -1,6 +1,6 @@
 final class SoutMessages {
 
-  static String WELCOME_HEADER = "***** Welcome *****";
+  static String WELCOME_HEADER = "\n***** Welcome *****";
   static String SELECT_DB = "Select which database type you want to use:\n" +
           "1 - MySQL local database\n" +
           "2 - In-memory database\n" +
@@ -36,7 +36,7 @@ final class SoutMessages {
           "8 - average order value by client id\n" +
           "q - go back to previous menu\n" +
           "Type chosen option and accept it using 'enter' button: ";
-  static String GIVE_CLIENT_ID = "Give Client Id: ";
+  static String GIVE_CLIENT_ID = "\nGive Client Id: ";
   static String ASK_FOR_ANOTHER_SOUT_REPORT = "Select one of the following options:\n" +
           "1 - Print another report to console\n" +
           "2 - Return to report type menu\n" +
