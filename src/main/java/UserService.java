@@ -16,6 +16,7 @@ class UserService {
   private ReportGenerator reportGenerator = new ReportGenerator();
   private ReportHandler reportHandler = new ReportHandler();
   private Connection conn;
+  private int clientId;
 
   void run() throws Exception {
     System.out.println(SoutMessages.WELCOME_HEADER);
@@ -119,15 +120,16 @@ class UserService {
     } while (!input.equals("1") && !input.equals("2") && !input.equals("3") &&
             !input.equals("4") && !input.equals("5") && !input.equals("6") &&
             !input.equals("7") && !input.equals("8") && !input.equals("q"));
-    //if input.equals(tam gdzie jest zapytanie o clientId)
-    //->zapytaj o clientId
-    // zapisz client id i przejdź dalej?
+    if (input.equals("2") || input.equals("4") || input.equals("6") || input.equals("8")) {
+      System.out.print(SoutMessages.GIVE_CLIENT_ID);
+      clientId = scanner.nextInt();
+    }
   }
 
   private void showSoutReportMenu() throws SQLException, IOException, ManagedProcessException {
     selectReport();
     if (!input.equals("q")) {
-      reportHandler.printReportToConsole(reportGenerator.generateReport(input, conn));
+      reportHandler.printReportToConsole(reportGenerator.generateReport(input, conn, clientId));
       do {
         System.out.println();
         System.out.print(SoutMessages.ASK_FOR_ANOTHER_SOUT_REPORT);
@@ -154,7 +156,7 @@ class UserService {
   private void showCsvReportMenu() throws SQLException, IOException, ManagedProcessException {
     selectReport();
     if (!input.equals("q")) {
-      reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, conn), input);
+      reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, conn, clientId), input);
       System.out.println(SoutMessages.CSV_REPORT_GENERATION_SUCCESS);
       do {
         System.out.println();
