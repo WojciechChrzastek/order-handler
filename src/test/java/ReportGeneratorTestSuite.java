@@ -26,10 +26,10 @@ public class ReportGeneratorTestSuite {
     dbHandler.insert(new Request("2", 1, "Dynia", 1, new BigDecimal(10)));
 
     //When
-    ResultSet rs1 = reportGenerator.generateReport("1", dbHandler.getConnection());
-    ResultSet rs3 = reportGenerator.generateReport("3", dbHandler.getConnection());
-    ResultSet rs5 = reportGenerator.generateReport("5", dbHandler.getConnection());
-    ResultSet rs7 = reportGenerator.generateReport("7", dbHandler.getConnection());
+    ResultSet rs1 = reportGenerator.generateReport("1", dbHandler.getConnection(), 1);
+    ResultSet rs3 = reportGenerator.generateReport("3", dbHandler.getConnection(), 1);
+    ResultSet rs5 = reportGenerator.generateReport("5", dbHandler.getConnection(), 1);
+    ResultSet rs7 = reportGenerator.generateReport("7", dbHandler.getConnection(), 1);
 
     //Then
     assertEquals(4, rs1.getInt(1));
@@ -73,10 +73,10 @@ public class ReportGeneratorTestSuite {
     InMemoryDbHandler.insert(new Request("2", 1, "Dynia", 1, new BigDecimal(10)));
 
     //When
-    ResultSet rs1 = reportGenerator.generateReport("1", inMemoryDbHandler.getConnection());
-    ResultSet rs3 = reportGenerator.generateReport("3", inMemoryDbHandler.getConnection());
-    ResultSet rs5 = reportGenerator.generateReport("5", inMemoryDbHandler.getConnection());
-    ResultSet rs7 = reportGenerator.generateReport("7", inMemoryDbHandler.getConnection());
+    ResultSet rs1 = reportGenerator.generateReport("1", inMemoryDbHandler.getConnection(), 1);
+    ResultSet rs3 = reportGenerator.generateReport("3", inMemoryDbHandler.getConnection(), 1);
+    ResultSet rs5 = reportGenerator.generateReport("5", inMemoryDbHandler.getConnection(), 1);
+    ResultSet rs7 = reportGenerator.generateReport("7", inMemoryDbHandler.getConnection(), 1);
 
     //Then
     assertEquals(4, rs1.getInt(1));
