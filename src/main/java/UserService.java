@@ -11,6 +11,7 @@ class UserService {
   private ParserXml parserXml = new ParserXml();
   private String input;
   private Scanner scanner = new Scanner(System.in);
+  private Scanner scannerInt = new Scanner(System.in);
   private DbHandler dbHandler = DbHandler.getInstance();
   private InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
   private ReportGenerator reportGenerator = new ReportGenerator();
@@ -122,7 +123,7 @@ class UserService {
             !input.equals("7") && !input.equals("8") && !input.equals("q"));
     if (input.equals("2") || input.equals("4") || input.equals("6") || input.equals("8")) {
       System.out.print(SoutMessages.GIVE_CLIENT_ID);
-      clientId = scanner.nextInt();
+      clientId = scannerInt.nextInt();
     }
   }
 
