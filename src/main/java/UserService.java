@@ -13,7 +13,6 @@ class UserService {
   private Scanner scanner = new Scanner(System.in);
   private Scanner scannerInt = new Scanner(System.in);
   private DbHandler dbHandler = DbHandler.getInstance();
-  private InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
   private ReportGenerator reportGenerator = new ReportGenerator();
   private ReportHandler reportHandler = new ReportHandler();
   private Connection conn;
@@ -24,10 +23,14 @@ class UserService {
     showDatabaseSelector();
   }
 
-  private void exitApplication() throws SQLException {
+  private void exitApplication() throws SQLException, ManagedProcessException {
     System.out.println(SoutMessages.GOODBYE_FOOTER);
-    dbHandler.deleteTable();
-    inMemoryDbHandler.closeDb();
+    if (conn == dbHandler.getConnection()) {
+      dbHandler.deleteTable();
+    } else {
+      InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
+      inMemoryDbHandler.closeDb();
+    }
     System.exit(0);
   }
 
@@ -38,14 +41,15 @@ class UserService {
       input = scanner.nextLine();
     } while (!input.equals("1") && !input.equals("2") && !input.equals("q"));
     if (input.equals("1")) {
-      conn = dbHandler.getConnection();
       System.out.print(SoutMessages.LOCAL_DB);
+      conn = dbHandler.getConnection();
       dbHandler.createTable();
       System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
       showMainMenu();
     } else if (input.equals("2")) {
-      conn = inMemoryDbHandler.getConnection();
       System.out.print(SoutMessages.IN_MEMORY_DB);
+      InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
+      conn = inMemoryDbHandler.getConnection();
       inMemoryDbHandler.createTable();
       System.out.println(SoutMessages.SUCCESS_CREATE_TABLE);
       showMainMenu();
@@ -92,6 +96,7 @@ class UserService {
     if (conn == dbHandler.getConnection()) {
       dbHandler.addRequestsListToDatabase(requestsList);
     } else {
+      InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
       inMemoryDbHandler.addRequestsListToDatabase(requestsList);
     }
     System.out.println(SoutMessages.ADD_FILE_DATA_SUCCESS);
@@ -182,6 +187,6 @@ class UserService {
     }
   }
 
-  UserService() throws SQLException, ManagedProcessException {
+  UserService() throws SQLException {
   }
 }

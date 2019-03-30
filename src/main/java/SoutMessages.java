@@ -6,9 +6,9 @@ final class SoutMessages {
           "2 - In-memory database\n" +
           "q - quit the program\n" +
           "Type chosen option and accept it using 'enter' button: ";
-  static String LOCAL_DB = "\nChosen database: Local MySQL\n";
-  static String IN_MEMORY_DB = "\nChosen database: In-memory\n";
-  static String SUCCESS_CREATE_TABLE = ">>> Table REQUESTS in chosen databes type successfully created <<<";
+  static String LOCAL_DB = "\nYou have chosen your local MySQL database.\n";
+  static String IN_MEMORY_DB = "\nYou have chosen in-memory database. Creating database and table...\n";
+  static String SUCCESS_CREATE_TABLE = "Table REQUESTS in chosen database type successfully created.";
   static String SELECT_ACTION_MAIN = "Select one of the following options:\n" +
           "1 - Add data from a file to the database\n" +
           "2 - Generate report\n" +
