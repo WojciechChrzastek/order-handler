@@ -114,6 +114,7 @@ class UserService {
     } else if (input.equals("2")) {
       showCsvReportMenu();
     } else {
+      System.out.println(SoutMessages.WRONG_INPUT);
       showMainMenu();
     }
   }
@@ -155,6 +156,7 @@ class UserService {
           exitApplication();
       }
     } else {
+      System.out.println(SoutMessages.WRONG_INPUT);
       showGenerateReportMenu();
     }
   }
