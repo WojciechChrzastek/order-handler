@@ -1,9 +1,6 @@
 import com.opencsv.CSVWriter;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
@@ -42,7 +39,7 @@ class ReportHandler {
     }
   }
 
-  void saveReportToCsvFile(ResultSet rs, String input) throws IOException, SQLException {
+  void saveReportToCsvFile(ResultSet rs, String input) throws SQLException {
     String path;
     switch (input) {
       case "5": {
@@ -60,14 +57,30 @@ class ReportHandler {
     }
     String pathname = path + ".csv";
     File file = new File(pathname);
-    CSVWriter csvWriter = new CSVWriter(
-            new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8),
-            ',', ' ',
-            CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-            CSVWriter.DEFAULT_LINE_END
-    );
+    CSVWriter csvWriter = null;
+    try {
+      csvWriter = new CSVWriter(
+              new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8),
+              ',', ' ',
+              CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+              CSVWriter.DEFAULT_LINE_END
+      );
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
     rs.beforeFirst();
-    csvWriter.writeAll(rs, true);
-    csvWriter.close();
+    try {
+      if (csvWriter != null) {
+        csvWriter.writeAll(rs, true);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    try {
+      assert csvWriter != null;
+      csvWriter.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
