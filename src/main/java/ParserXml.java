@@ -41,6 +41,7 @@ class ParserXml extends DefaultHandler implements Parser {
       saxParser.parse(new File(file), handler);
       requestsList = handler.getRequestsList();
     } catch (ParserConfigurationException | SAXException | IOException e) {
+      System.out.println("File not found");
       e.printStackTrace();
     }
     return requestsList;

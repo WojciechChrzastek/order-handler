@@ -61,12 +61,14 @@ public class ParserCsvListReader implements Parser {
       }
 
     } catch (IOException e) {
+      System.out.println("File not found");
       e.printStackTrace();
     } finally {
       if (listReader != null) {
         try {
           listReader.close();
         } catch (IOException e) {
+          System.out.println("Object not found");
           e.printStackTrace();
         }
       }

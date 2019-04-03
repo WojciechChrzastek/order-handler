@@ -66,6 +66,7 @@ class ReportHandler {
               CSVWriter.DEFAULT_LINE_END
       );
     } catch (FileNotFoundException e) {
+      System.out.println("File not found");
       e.printStackTrace();
     }
     rs.beforeFirst();
@@ -74,12 +75,14 @@ class ReportHandler {
         csvWriter.writeAll(rs, true);
       }
     } catch (IOException e) {
+      System.out.println("Object not found");
       e.printStackTrace();
     }
     try {
       assert csvWriter != null;
       csvWriter.close();
     } catch (IOException e) {
+      System.out.println("Object not found");
       e.printStackTrace();
     }
   }
