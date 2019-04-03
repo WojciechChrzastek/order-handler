@@ -1,6 +1,5 @@
 import ch.vorburger.exec.ManagedProcessException;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -58,7 +57,7 @@ class UserService {
     }
   }
 
-  private void showMainMenu() throws SQLException, IOException, ManagedProcessException {
+  private void showMainMenu() throws SQLException, ManagedProcessException {
     System.out.println();
     do {
       System.out.print(SoutMessages.SELECT_ACTION_MAIN);
@@ -73,7 +72,7 @@ class UserService {
     }
   }
 
-  private void showAddFileMenu() throws SQLException, IOException, ManagedProcessException {
+  private void showAddFileMenu() throws SQLException, ManagedProcessException {
     System.out.println();
     do {
       System.out.print(SoutMessages.ASK_FOR_FILE_PATH);
@@ -91,7 +90,7 @@ class UserService {
     } while (!input.contains(".csv") && !input.contains(".xml") && !input.equals("q"));
   }
 
-  private void handleInput(List requestsList) throws SQLException, IOException, ManagedProcessException {
+  private void handleInput(List requestsList) throws SQLException, ManagedProcessException {
     System.out.println(SoutMessages.PARSE_SUCCESS);
     if (conn == dbHandler.getConnection()) {
       dbHandler.addRequestsListToDatabase(requestsList);
@@ -103,7 +102,7 @@ class UserService {
     showMainMenu();
   }
 
-  private void showGenerateReportMenu() throws SQLException, IOException, ManagedProcessException {
+  private void showGenerateReportMenu() throws SQLException, ManagedProcessException {
     System.out.println();
     do {
       System.out.print(SoutMessages.SELECT_REPORT_TYPE);
@@ -133,7 +132,7 @@ class UserService {
     }
   }
 
-  private void showSoutReportMenu() throws SQLException, IOException, ManagedProcessException {
+  private void showSoutReportMenu() throws SQLException, ManagedProcessException {
     selectReport();
     if (!input.equals("q")) {
       reportHandler.printReportToConsole(reportGenerator.generateReport(input, conn, clientId));
@@ -161,7 +160,7 @@ class UserService {
     }
   }
 
-  private void showCsvReportMenu() throws SQLException, IOException, ManagedProcessException {
+  private void showCsvReportMenu() throws SQLException, ManagedProcessException {
     selectReport();
     if (!input.equals("q")) {
       reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, conn, clientId), input);
