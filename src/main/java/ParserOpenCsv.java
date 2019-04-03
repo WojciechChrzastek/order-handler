@@ -10,7 +10,7 @@ class ParserOpenCsv implements Parser {
   private List<Request> requestsList = null;
 
   @Override
-  public boolean validate (String line, int lineNumber) {
+  public boolean validate(String line, int lineNumber) {
     return FileValidator.validate(line, lineNumber);
   }
 
@@ -22,8 +22,7 @@ class ParserOpenCsv implements Parser {
   @Override
   public List parse(String file) {
     requestsList = new ArrayList<>();
-    CSVReader reader;
-
+    CSVReader reader = null;
     try {
       reader = new CSVReader(new FileReader(file));
       reader.readNext();
@@ -37,18 +36,25 @@ class ParserOpenCsv implements Parser {
         request.setPrice(new BigDecimal(line[4]));
         requestsList.add(request);
       }
-      reader.close();
     } catch (IOException e) {
       System.out.println("File not found");
       e.printStackTrace();
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          System.out.println("Object not found");
+          e.printStackTrace();
+        }
+      }
     }
     return requestsList;
   }
 
   List parseTestFiles(String file) {
     List<String[]> list = new ArrayList<>();
-    CSVReader reader;
-
+    CSVReader reader = null;
     try {
       reader = new CSVReader(new FileReader(file));
       reader.readNext();
@@ -60,6 +66,15 @@ class ParserOpenCsv implements Parser {
     } catch (IOException e) {
       System.out.println("File not found");
       e.printStackTrace();
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          System.out.println("Object not found");
+          e.printStackTrace();
+        }
+      }
     }
     return list;
   }

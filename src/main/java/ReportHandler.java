@@ -77,13 +77,15 @@ class ReportHandler {
     } catch (IOException e) {
       System.out.println("Object not found");
       e.printStackTrace();
-    }
-    try {
-      assert csvWriter != null;
-      csvWriter.close();
-    } catch (IOException e) {
-      System.out.println("Object not found");
-      e.printStackTrace();
+    } finally {
+      if (csvWriter != null) {
+        try {
+          csvWriter.close();
+        } catch (IOException e) {
+          System.out.println("Object not found");
+          e.printStackTrace();
+        }
+      }
     }
   }
 }

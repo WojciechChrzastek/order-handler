@@ -14,7 +14,7 @@ class ParserCsv implements Parser {
   }
 
   @Override
-  public boolean validate (String line, int lineNumber) {
+  public boolean validate(String line, int lineNumber) {
     return FileValidator.validate(line, lineNumber);
   }
 
@@ -23,8 +23,9 @@ class ParserCsv implements Parser {
     String line;
     String[] requestsArray;
     requestsList = new ArrayList<>();
-
-    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    BufferedReader br = null;
+    try {
+      br = new BufferedReader(new FileReader(file));
       br.readLine();
       while ((line = br.readLine()) != null) {
         lineNumber++;
@@ -42,6 +43,15 @@ class ParserCsv implements Parser {
     } catch (IOException e) {
       System.out.println("File not found");
       e.printStackTrace();
+    } finally {
+      if (br != null) {
+        try {
+          br.close();
+        } catch (IOException e) {
+          System.out.println("Object not found");
+          e.printStackTrace();
+        }
+      }
     }
     return requestsList;
   }
