@@ -52,18 +52,26 @@ class ParserXml extends DefaultHandler implements Parser {
       request = new Request();
       if (requestsList == null)
         requestsList = new ArrayList<>();
-
-    } else if (qName.equalsIgnoreCase("clientId")) {
-      clientId = true;
-    } else if (qName.equalsIgnoreCase("requestId")) {
-      requestId = true;
-    } else if (qName.equalsIgnoreCase("name")) {
-      name = true;
-    } else if (qName.equalsIgnoreCase("price")) {
-      price = true;
-    } else if (qName.equalsIgnoreCase("quantity")) {
-      quantity = true;
     }
+
+    String s = "";
+
+    switch (s) {
+      case (qName.equalsIgnoreCase("clientId")):
+        clientId = true;
+        break;
+      case (qName.equalsIgnoreCase("requestId")):
+        requestId = true;
+        break;
+      case "name":
+        name = true;
+      case "price":
+        price = true;
+      case "quantity":
+        quantity = true;
+        break;
+    }
+
     data = new StringBuilder();
   }
 
