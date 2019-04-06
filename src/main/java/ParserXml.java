@@ -41,6 +41,7 @@ class ParserXml extends DefaultHandler implements Parser {
       saxParser.parse(new File(file), handler);
       requestsList = handler.getRequestsList();
     } catch (ParserConfigurationException | SAXException | IOException e) {
+      System.out.println("File not found");
       e.printStackTrace();
     }
     return requestsList;
@@ -48,30 +49,28 @@ class ParserXml extends DefaultHandler implements Parser {
 
   @Override
   public void startElement(String uri, String localName, String qName, Attributes attributes) {
-    if (qName.equalsIgnoreCase("Request")) {
-      request = new Request();
-      if (requestsList == null)
-        requestsList = new ArrayList<>();
-    }
-
-    String s = "";
-
-    switch (s) {
-      case (qName.equalsIgnoreCase("clientId")):
+    switch (qName.toLowerCase()) {
+      case "request":
+        request = new Request();
+        if (requestsList == null)
+          requestsList = new ArrayList<>();
+        break;
+      case "clientid":
         clientId = true;
         break;
-      case (qName.equalsIgnoreCase("requestId")):
+      case "requestid":
         requestId = true;
         break;
       case "name":
         name = true;
+        break;
       case "price":
         price = true;
+        break;
       case "quantity":
         quantity = true;
         break;
     }
-
     data = new StringBuilder();
   }
 
