@@ -7,13 +7,11 @@ class FileValidator {
   }
 
   static boolean validate(String line, int lineNumber) {
-    String regex = "(.*,.*){4}";
-    Pattern pattern = Pattern.compile(regex);
+    Pattern pattern = Pattern.compile("(.*,.*){4}");
     Matcher matcher = pattern.matcher(line);
-    boolean isMatched = matcher.matches();
-    if (!isMatched) {
+    if (!matcher.matches()) {
       System.out.println("Missing data in line " + lineNumber + " of the file.");
     }
-    return isMatched;
+    return matcher.matches();
   }
 }
