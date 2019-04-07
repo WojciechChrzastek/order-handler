@@ -22,10 +22,8 @@ class ParserOpenCsv implements Parser {
   @Override
   public List parse(String file) {
     requestsList = new ArrayList<>();
-    CSVReader reader;
 
-    try {
-      reader = new CSVReader(new FileReader(file));
+    try (CSVReader reader = new CSVReader(new FileReader(file))) {
       reader.readNext();
       String[] line;
       while ((line = reader.readNext()) != null) {
@@ -37,7 +35,6 @@ class ParserOpenCsv implements Parser {
         request.setPrice(new BigDecimal(line[4]));
         requestsList.add(request);
       }
-      reader.close();
     } catch (IOException e) {
       System.out.println("File not found");
       e.printStackTrace();
