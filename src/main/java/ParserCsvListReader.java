@@ -20,14 +20,14 @@ public class ParserCsvListReader implements Parser {
   public List parse(String file) {
     requestsList = new ArrayList<>();
 
-    final CellProcessor[] allProcessors = new CellProcessor[]{
+    CellProcessor[] allProcessors = new CellProcessor[]{
             new Optional(), //clientIt
             new Optional(new ParseLong()), // requestId
             new Optional(), // name
             new Optional(new ParseInt()), // quantity
             new Optional(new ParseBigDecimal())}; // price
 
-    final CellProcessor[] noRequestIdProcessors = new CellProcessor[]{
+    CellProcessor[] noRequestIdProcessors = new CellProcessor[]{
             allProcessors[0], // clientIt
             allProcessors[2], // name
             allProcessors[3], // quantity
@@ -42,14 +42,14 @@ public class ParserCsvListReader implements Parser {
       while ((listReader.read()) != null) {
 
         // use different processors depending on the number of columns
-        final CellProcessor[] processors;
+        CellProcessor[] processors;
         if (listReader.length() == noRequestIdProcessors.length) {
           processors = noRequestIdProcessors;
         } else {
           processors = allProcessors;
         }
 
-        final List<Object> objectList = listReader.executeProcessors(processors);
+        List<Object> objectList = listReader.executeProcessors(processors);
 
         Request request = new Request();
         request.setClientId(objectList.get(0).toString());

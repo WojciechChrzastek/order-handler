@@ -1,4 +1,4 @@
-final class SqlQueries {
+class SqlQueries {
   static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS REQUESTS " +
           "(" +
           "ID SERIAL PRIMARY KEY, " +

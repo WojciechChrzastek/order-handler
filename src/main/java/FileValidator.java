@@ -3,9 +3,6 @@ import java.util.regex.Pattern;
 
 class FileValidator {
 
-  FileValidator() {
-  }
-
   static boolean validate(String line, int lineNumber) {
     Pattern pattern = Pattern.compile("(.*,.*){4}");
     Matcher matcher = pattern.matcher(line);
