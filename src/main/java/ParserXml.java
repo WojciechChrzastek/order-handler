@@ -52,8 +52,9 @@ class ParserXml extends DefaultHandler implements Parser {
     switch (qName.toLowerCase()) {
       case "request":
         request = new Request();
-        if (requestsList == null)
+        if (requestsList == null) {
           requestsList = new ArrayList<>();
+        }
         break;
       case "clientid":
         clientId = true;
@@ -69,6 +70,8 @@ class ParserXml extends DefaultHandler implements Parser {
         break;
       case "quantity":
         quantity = true;
+        break;
+      default:
         break;
     }
     data = new StringBuilder();

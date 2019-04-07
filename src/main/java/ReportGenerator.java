@@ -44,6 +44,9 @@ class ReportGenerator {
             rs = ps.executeQuery();
             break;
           }
+          default: {
+            break;
+          }
         }
       }
       rs.next();

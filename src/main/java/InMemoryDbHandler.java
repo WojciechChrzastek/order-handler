@@ -39,6 +39,12 @@ class InMemoryDbHandler {
     qr.update(conn, SqlQueries.CREATE_TABLE);
   }
 
+  void deleteTable() throws SQLException, ManagedProcessException {
+    InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
+    Statement statement = inMemoryDbHandler.getConnection().createStatement();
+    statement.executeUpdate(SqlQueries.DELETE_TABLE);
+  }
+
   static void insert(Request request) throws SQLException, ManagedProcessException {
     InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
 
@@ -64,12 +70,6 @@ class InMemoryDbHandler {
       // ==>>> walidacja
       insert(r);
     }
-  }
-
-  void deleteTable() throws SQLException, ManagedProcessException {
-    InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
-    Statement statement = inMemoryDbHandler.getConnection().createStatement();
-    statement.executeUpdate(SqlQueries.DELETE_TABLE);
   }
 
   void closeDb() {

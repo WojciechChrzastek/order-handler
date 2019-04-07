@@ -14,7 +14,7 @@ class ParserCsv implements Parser {
   }
 
   @Override
-  public boolean validate (String line, int lineNumber) {
+  public boolean validate(String line, int lineNumber) {
     return FileValidator.validate(line, lineNumber);
   }
 

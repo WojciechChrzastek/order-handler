@@ -10,7 +10,7 @@ class ParserOpenCsv implements Parser {
   private List<Request> requestsList = null;
 
   @Override
-  public boolean validate (String line, int lineNumber) {
+  public boolean validate(String line, int lineNumber) {
     return FileValidator.validate(line, lineNumber);
   }
 
