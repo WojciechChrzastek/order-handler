@@ -23,17 +23,6 @@ class UserService {
     showDatabaseSelector();
   }
 
-  private void exitApplication() throws SQLException, ManagedProcessException {
-    System.out.println(SoutMessages.GOODBYE_FOOTER);
-    if (conn == dbHandler.getConnection()) {
-      dbHandler.deleteTable();
-    } else {
-      InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
-      inMemoryDbHandler.closeDb();
-    }
-    System.exit(0);
-  }
-
   private void showDatabaseSelector() throws Exception {
     System.out.println();
     do {
@@ -187,6 +176,17 @@ class UserService {
     } else {
       showGenerateReportMenu();
     }
+  }
+
+  private void exitApplication() throws SQLException, ManagedProcessException {
+    System.out.println(SoutMessages.GOODBYE_FOOTER);
+    if (conn == dbHandler.getConnection()) {
+      dbHandler.deleteTable();
+    } else {
+      InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
+      inMemoryDbHandler.closeDb();
+    }
+    System.exit(0);
   }
 
   UserService() throws SQLException {
