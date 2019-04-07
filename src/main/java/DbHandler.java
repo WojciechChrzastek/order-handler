@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.Properties;
 
-class DbHandler {
+final class DbHandler {
   private Connection conn;
   private static DbHandler dbHandlerInstance;
 
