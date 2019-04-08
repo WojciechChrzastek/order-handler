@@ -81,15 +81,19 @@ class UserService {
   }
 
   private void handleInput(List requestsList) throws SQLException, IOException, ManagedProcessException {
-    System.out.println(SoutMessages.PARSE_SUCCESS);
-    if (conn == dbHandler.getConnection()) {
-      dbHandler.addRequestsListToDatabase(requestsList);
+    if (requestsList.size() != 0) {
+      if (conn == dbHandler.getConnection()) {
+        dbHandler.addRequestsListToDatabase(requestsList);
+      } else {
+        InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
+        inMemoryDbHandler.addRequestsListToDatabase(requestsList);
+      }
+      System.out.println(SoutMessages.ADD_FILE_DATA_SUCCESS);
+      showMainMenu();
     } else {
-      InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
-      inMemoryDbHandler.addRequestsListToDatabase(requestsList);
+      System.out.println(SoutMessages.ADD_FILE_DATA_FAIL);
+      showAddFileMenu();
     }
-    System.out.println(SoutMessages.ADD_FILE_DATA_SUCCESS);
-    showMainMenu();
   }
 
   private void showGenerateReportMenu() throws SQLException, IOException, ManagedProcessException {
