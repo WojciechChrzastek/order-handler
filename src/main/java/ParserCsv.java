@@ -38,9 +38,11 @@ class ParserCsv implements Parser {
           request.setPrice(new BigDecimal(requestsArray[4]));
           requestsList.add(request);
         }
+        System.out.println(SoutMessages.PARSE_SUCCESS);
       }
     } catch (IOException e) {
-      System.out.println("File not found");
+      System.out.println("\n" + SoutMessages.FILE_NOT_FOUND);
+      System.out.println(SoutMessages.PARSE_FAIL);
       e.printStackTrace();
     }
     return requestsList;

@@ -35,8 +35,9 @@ class ParserOpenCsv implements Parser {
         request.setPrice(new BigDecimal(line[4]));
         requestsList.add(request);
       }
+      System.out.println(SoutMessages.PARSE_SUCCESS);
     } catch (IOException e) {
-      System.out.println("File not found");
+      System.out.println(SoutMessages.FILE_NOT_FOUND);
       e.printStackTrace();
     }
     return requestsList;
@@ -55,7 +56,8 @@ class ParserOpenCsv implements Parser {
       }
       reader.close();
     } catch (IOException e) {
-      System.out.println("File not found");
+      System.out.println("\n" + SoutMessages.FILE_NOT_FOUND);
+      System.out.println(SoutMessages.PARSE_FAIL);
       e.printStackTrace();
     }
     return list;
