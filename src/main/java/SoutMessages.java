@@ -18,7 +18,9 @@ final class SoutMessages {
           "Please type a path to the file you want to parse and save its content to the database.\n" +
                   "Press 'q' to return to main menu. Accept your choice using 'enter' button: ";
   static String PARSE_SUCCESS = ">>> File successfully parsed to list of Requests <<<";
+  static String PARSE_FAIL = "!!! File parsing to list of Requests failed !!!";
   static String ADD_FILE_DATA_SUCCESS = ">>> Data successfully added to the database <<<";
+  static String ADD_FILE_DATA_FAIL = "!!! Failed adding data to the database !!!";
   static String FILE_NOT_FOUND = "!!! Valid file has not been found. Please enter a valid file path. !!!";
   static String SELECT_REPORT_TYPE = "Select one of the following options\n" +
           "1 - print report to the console\n" +
