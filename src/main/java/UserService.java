@@ -3,6 +3,7 @@ import ch.vorburger.exec.ManagedProcessException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -113,13 +114,11 @@ class UserService {
 
   private void selectReport() {
     System.out.println();
+    String[] validInput = {"1", "2", "3", "4", "5", "6", "5", "7", "8", "q"};
     do {
       System.out.print(SoutMessages.SELECT_REPORT);
       input = scanner.nextLine();
-//    } while (!input.toString())
-    } while (!input.equals("1") && !input.equals("2") && !input.equals("3") &&
-            !input.equals("4") && !input.equals("5") && !input.equals("6") &&
-            !input.equals("7") && !input.equals("8") && !input.equals("q"));
+    } while (!Arrays.asList(validInput).contains(input));
     if (input.equals("2") || input.equals("4") || input.equals("6") || input.equals("8")) {
       System.out.print(SoutMessages.GIVE_CLIENT_ID);
       clientId = scannerInt.nextInt();
@@ -149,7 +148,6 @@ class UserService {
           exitApplication();
       }
     } else {
-      System.out.println(SoutMessages.WRONG_INPUT);
       showGenerateReportMenu();
     }
   }
