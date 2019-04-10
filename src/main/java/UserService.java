@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Scanner;
 
 class UserService {
-  private ParserCsv parserCsv = new ParserCsv();
-  private ParserXml parserXml = new ParserXml();
   private String input;
   private Scanner scanner = new Scanner(System.in);
   private Scanner scannerInt = new Scanner(System.in);
@@ -68,9 +66,9 @@ class UserService {
       System.out.print(SoutMessages.ASK_FOR_FILE_PATH);
       input = scanner.nextLine();
       if (input.contains(".csv")) {
-        handleInput(parserCsv.parse(input));
+        handleInput(new ParserCsv());
       } else if (input.contains(".xml")) {
-        handleInput(parserXml.parse(input));
+        handleInput(new ParserXml());
       } else if (input.equals("q")) {
         showMainMenu();
       } else {
@@ -80,13 +78,14 @@ class UserService {
     } while (!input.contains(".csv") && !input.contains(".xml") && !input.equals("q"));
   }
 
-  private void handleInput(List requestsList) throws SQLException, IOException, ManagedProcessException {
-    if (requestsList.size() != 0) {
+  private void handleInput(Parser parser) throws SQLException, IOException, ManagedProcessException {
+    List requestList = parser.parse(input);
+    if (requestList.size() != 0) {
       if (conn == dbHandler.getConnection()) {
-        dbHandler.addRequestsListToDatabase(requestsList);
+        dbHandler.addRequestsListToDatabase(requestList);
       } else {
         InMemoryDbHandler inMemoryDbHandler = InMemoryDbHandler.getInstance();
-        inMemoryDbHandler.addRequestsListToDatabase(requestsList);
+        inMemoryDbHandler.addRequestsListToDatabase(requestList);
       }
       System.out.println(SoutMessages.ADD_FILE_DATA_SUCCESS);
       showMainMenu();
@@ -117,6 +116,7 @@ class UserService {
     do {
       System.out.print(SoutMessages.SELECT_REPORT);
       input = scanner.nextLine();
+//    } while (!input.toString())
     } while (!input.equals("1") && !input.equals("2") && !input.equals("3") &&
             !input.equals("4") && !input.equals("5") && !input.equals("6") &&
             !input.equals("7") && !input.equals("8") && !input.equals("q"));
