@@ -16,6 +16,8 @@ class UserService {
   private ReportHandler reportHandler = new ReportHandler();
   private Connection conn;
   private int clientId;
+  private String[] inputAnotherReport = {"1", "2", "3", "q"};
+  private String[] input12q = {"1", "2", "q"};
 
   void run() throws Exception {
     System.out.println(SoutMessages.WELCOME_HEADER);
@@ -51,7 +53,7 @@ class UserService {
     do {
       System.out.print(SoutMessages.SELECT_ACTION_MAIN);
       input = scanner.nextLine();
-    } while (!input.equals("1") && !input.equals("2") && !input.equals("q"));
+    } while (!Arrays.asList(input12q).contains(input));
     if (input.equals("1")) {
       showAddFileMenu();
     } else if (input.equals("2")) {
@@ -63,6 +65,7 @@ class UserService {
 
   private void showAddFileMenu() throws SQLException, IOException, ManagedProcessException {
     System.out.println();
+    String[] validInput = {".csv", ".xml", "q"};
     do {
       System.out.print(SoutMessages.ASK_FOR_FILE_PATH);
       input = scanner.nextLine();
@@ -76,7 +79,7 @@ class UserService {
         System.out.println(SoutMessages.FILE_NOT_FOUND);
         System.out.println();
       }
-    } while (!input.contains(".csv") && !input.contains(".xml") && !input.equals("q"));
+    } while (!Arrays.asList(validInput).contains(input));
   }
 
   private void handleInput(Parser parser) throws SQLException, IOException, ManagedProcessException {
@@ -101,7 +104,7 @@ class UserService {
     do {
       System.out.print(SoutMessages.SELECT_REPORT_TYPE);
       input = scanner.nextLine();
-    } while (!input.equals("1") && !input.equals("2") && !input.equals("q"));
+    } while (!Arrays.asList(input12q).contains(input));
     if (input.equals("1")) {
       showSoutReportMenu();
     } else if (input.equals("2")) {
@@ -115,13 +118,15 @@ class UserService {
   private void selectReport() {
     System.out.println();
     String[] validInput = {"1", "2", "3", "4", "5", "6", "5", "7", "8", "q"};
+    String[] validInput2 = {"2", "4", "6", "8"};
     do {
       System.out.print(SoutMessages.SELECT_REPORT);
       input = scanner.nextLine();
     } while (!Arrays.asList(validInput).contains(input));
-    if (input.equals("2") || input.equals("4") || input.equals("6") || input.equals("8")) {
+    if (!Arrays.asList(validInput2).contains(input)) {
       System.out.print(SoutMessages.GIVE_CLIENT_ID);
       clientId = scannerInt.nextInt();
+      //// WALIDACJA CLIENT ID MUSI(!?) BYC INT^^^^^^^^^^^^^^^^^^
     }
   }
 
@@ -133,7 +138,7 @@ class UserService {
         System.out.println();
         System.out.print(SoutMessages.ASK_FOR_ANOTHER_SOUT_REPORT);
         input = scanner.nextLine();
-      } while (!input.equals("1") && !input.equals("2") && !input.equals("3") && !input.equals("q"));
+      } while (!Arrays.asList(inputAnotherReport).contains(input));
       switch (input) {
         case "1":
           showSoutReportMenu();
@@ -157,11 +162,12 @@ class UserService {
     if (!input.equals("q")) {
       reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, conn, clientId), input);
       System.out.println(SoutMessages.CSV_REPORT_GENERATION_SUCCESS);
+
       do {
         System.out.println();
         System.out.print(SoutMessages.ASK_FOR_ANOTHER_CSV_REPORT);
         input = scanner.nextLine();
-      } while (!input.equals("1") && !input.equals("2") && !input.equals("3") && !input.equals("q"));
+      } while (!Arrays.asList(inputAnotherReport).contains(input));
       switch (input) {
         case "1":
           showCsvReportMenu();
