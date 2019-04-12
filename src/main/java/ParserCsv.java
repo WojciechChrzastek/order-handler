@@ -48,4 +48,23 @@ class ParserCsv implements Parser {
     }
     return requestsList;
   }
+
+  List parseTestFiles(String file) {
+    List<String[]> list = new ArrayList<>();
+    String line;
+    String[] array;
+
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+      br.readLine();
+      while ((line = br.readLine()) != null) {
+        array = line.split(",");
+        list.add(array);
+      }
+    } catch (IOException e) {
+      System.out.println("\n" + SoutMessages.FILE_NOT_FOUND);
+      System.out.println(SoutMessages.PARSE_FAIL);
+      e.printStackTrace();
+    }
+    return list;
+  }
 }
