@@ -123,10 +123,10 @@ class UserService {
       System.out.print(SoutMessages.SELECT_REPORT);
       input = scanner.nextLine();
     } while (!Arrays.asList(validInput).contains(input));
-    if (!Arrays.asList(validInput2).contains(input)) {
+    if (Arrays.asList(validInput2).contains(input)) {
       System.out.print(SoutMessages.GIVE_CLIENT_ID);
       clientId = scannerInt.nextInt();
-      //// WALIDACJA CLIENT ID MUSI(!?) BYC INT^^^^^^^^^^^^^^^^^^
+      //// WALIDACJA CLIENT ID MUSI(!?) BYC INT I MUSI BYC TAKI ID W BAZIE^^^^^^^^^^^^^^^^^^
     }
   }
 
