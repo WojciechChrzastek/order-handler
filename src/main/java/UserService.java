@@ -110,7 +110,7 @@ class UserService {
     } else if (input.equals("2")) {
       showCsvReportMenu();
     } else {
-      System.out.println(SoutMessages.WRONG_INPUT);
+      System.out.println("\n" + SoutMessages.WRONG_INPUT);
       showMainMenu();
     }
   }
@@ -118,15 +118,19 @@ class UserService {
   private void selectReport() {
     System.out.println();
     String[] validInput = {"1", "2", "3", "4", "5", "6", "5", "7", "8", "q"};
-    String[] validInput2 = {"2", "4", "6", "8"};
+    String[] reportsThatNeedClientId = {"2", "4", "6", "8"};
     do {
       System.out.print(SoutMessages.SELECT_REPORT);
       input = scanner.nextLine();
     } while (!Arrays.asList(validInput).contains(input));
-    if (Arrays.asList(validInput2).contains(input)) {
-      System.out.print(SoutMessages.GIVE_CLIENT_ID);
+    if (Arrays.asList(reportsThatNeedClientId).contains(input)) {
+      System.out.print("\n" + SoutMessages.GIVE_CLIENT_ID);
+      while (!scannerInt.hasNextInt()) {
+        System.out.print(SoutMessages.WRONG_INPUT + " " + SoutMessages.GIVE_CLIENT_ID);
+        scannerInt.next();
+      }
       clientId = scannerInt.nextInt();
-      //// WALIDACJA CLIENT ID MUSI(!?) BYC INT I MUSI BYC TAKI ID W BAZIE^^^^^^^^^^^^^^^^^^
+      //// MUSI BYC TAKI ID W BAZIE^^^^^^^^^^^^^^^^^^
     }
   }
 
