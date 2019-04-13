@@ -58,14 +58,18 @@ public class ReportHandlerTestSuite {
   public void saveReportToCsvFile() throws SQLException, IOException {
     //Given
     String input = "1";
-    ParserOpenCsv parserOpenCsv = new ParserOpenCsv();
+//    ParserOpenCsv parserOpenCsv = new ParserOpenCsv();
+    ParserCsv parserCsv = new ParserCsv();
 
     //When
     reportHandler.saveReportToCsvFile(reportGenerator.generateReport(input, dbHandler.getConnection(), 1), input);
 
     //Then
-    List list1 = parserOpenCsv.parseTestFiles("out/test/resources/test_TOTAL_ORDERS_NUMBER.csv");
-    List list2 = parserOpenCsv.parseTestFiles("TOTAL_ORDERS_NUMBER.csv");
+//    List list1 = parserOpenCsv.parseTestFiles("out/test/resources/test_TOTAL_ORDERS_NUMBER.csv");
+//    List list2 = parserOpenCsv.parseTestFiles("TOTAL_ORDERS_NUMBER.csv");
+
+    List list1 = parserCsv.parseTestFiles("out/test/resources/test_TOTAL_ORDERS_NUMBER.csv");
+    List list2 = parserCsv.parseTestFiles("TOTAL_ORDERS_NUMBER.csv");
 
     assertArrayEquals(list1.toArray(), list2.toArray());
 
