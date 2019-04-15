@@ -9,17 +9,20 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class ParserXml extends DefaultHandler implements Parser {
   private List<Request> requestsList = null;
   private Request request = null;
   private StringBuilder data = null;
+  private String type;
   private boolean clientId = false;
   private boolean requestId = false;
   private boolean name = false;
   private boolean quantity = false;
   private boolean price = false;
+  private String[] specialTypes = {"name", "clientId", "requestId", "quantity", "price"};
 
   public List<Request> getRequestsList() {
     return requestsList;
@@ -50,52 +53,57 @@ class ParserXml extends DefaultHandler implements Parser {
 
   @Override
   public void startElement(String uri, String localName, String qName, Attributes attributes) {
-    switch (qName.toLowerCase()) {
-      case "request":
-        request = new Request();
-        if (requestsList == null) {
-          requestsList = new ArrayList<>();
-        }
-        break;
-      case "clientid":
-        clientId = true;
-        break;
-      case "requestid":
-        requestId = true;
-        break;
-      case "name":
-        name = true;
-        break;
-      case "price":
-        price = true;
-        break;
-      case "quantity":
-        quantity = true;
-        break;
-      default:
-        break;
+    if ("request".equals(qName.toLowerCase())) {
+      request = new Request();
+      if (requestsList == null) {
+        requestsList = new ArrayList<>();
+      }
+    } else if (Arrays.asList(specialTypes).contains(qName)) {
+      type = qName;
     }
     data = new StringBuilder();
   }
 
   @Override
   public void endElement(String uri, String localName, String qName) {
-    if (name) {
-      request.setName(data.toString());
-      name = false;
-    } else if (clientId) {
-      request.setClientId(data.toString());
-      clientId = false;
-    } else if (requestId) {
-      request.setRequestId(Long.parseLong(data.toString()));
-      requestId = false;
-    } else if (quantity) {
-      request.setQuantity(Integer.parseInt(data.toString()));
-      quantity = false;
-    } else if (price) {
-      request.setPrice(new BigDecimal(data.toString()));
-      price = false;
-    }
+//    switch (qName) {
+//      case "name": {
+//        request.setName(data.toString());
+//        name = false;
+//      }
+//      case "clientId": {
+//        request.setClientId(data.toString());
+//        clientId = false;
+//      }
+//      case "requestId": {
+//        request.setRequestId(Long.parseLong(data.toString()));
+//        requestId = false;
+//      }
+//      case "quantity": {
+//        request.setQuantity(Integer.parseInt(data.toString()));
+//        quantity = false;
+//      }
+//      case "price": {
+//        request.setPrice(new BigDecimal(data.toString()));
+//        price = false;
+//      }
+
+      if (name) {
+        request.setName(data.toString());
+        name = false;
+      } else if (clientId) {
+        request.setClientId(data.toString());
+        clientId = false;
+      } else if (requestId) {
+        request.setRequestId(Long.parseLong(data.toString()));
+        requestId = false;
+      } else if (quantity) {
+        request.setQuantity(Integer.parseInt(data.toString()));
+        quantity = false;
+      } else if (price) {
+        request.setPrice(new BigDecimal(data.toString()));
+        price = false;
+      }
     if (qName.equalsIgnoreCase("Request")) {
       requestsList.add(request);
     }
